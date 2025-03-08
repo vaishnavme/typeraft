@@ -1,5 +1,11 @@
+import Editor from "@/components/editor/editor";
+
 const Home = () => {
-  return <div>Home</div>;
+  return (
+    <div>
+      <Editor />
+    </div>
+  );
 };
 
 export default Home;
