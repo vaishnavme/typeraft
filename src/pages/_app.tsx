@@ -4,6 +4,7 @@ import { NextPage } from "next";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import "@/styles/globals.css";
 import Layout from "@/components/layout/layout";
+import { Toaster } from "@/components/ui/sonner";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -23,6 +24,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       disableTransitionOnChange
     >
       <div>{getLayout(<Component {...pageProps} />)}</div>
+      <Toaster />
     </NextThemesProvider>
   );
 }
