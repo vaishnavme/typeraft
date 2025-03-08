@@ -2,8 +2,12 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import extensions from "./extensions";
 import Toolbar from "./editor-ui/toolbar";
 import { placeholder_content, typeraft_prose_styles } from "./constants";
+import { useState } from "react";
+import { fontStyles } from "./editor-ui/font-selector";
 
 const Editor = () => {
+  const [fontStyle, setFontStyle] = useState<string>(fontStyles.serif);
+
   const editor = useEditor({
     extensions,
     onUpdate: ({ editor: editorInstance }) => {
@@ -24,8 +28,14 @@ const Editor = () => {
 
   return (
     <div className="w-full space-y-20 mb-20">
-      <Toolbar editor={editor} />
-      <EditorContent editor={editor} />
+      <Toolbar
+        editor={editor}
+        fontStyle={fontStyle}
+        setFontStyle={setFontStyle}
+      />
+      <div className={fontStyle}>
+        <EditorContent editor={editor} />
+      </div>
     </div>
   );
 };

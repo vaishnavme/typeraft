@@ -19,10 +19,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import BlockSelector from "./block-selector";
 import TextAlignSelector from "./text-align";
-
-interface ToolbarProps {
-  editor: Editor;
-}
+import FontSelector from "./font-selector";
 
 const Seperator = () => <div className="h-6 w-px bg-border" />;
 
@@ -53,48 +50,43 @@ const basicToolbarOptions = [
   },
 ];
 
-const BasicTools = (props: ToolbarProps) => {
-  const { editor } = props;
+const BasicTools = ({ editor }: { editor: Editor }) =>
+  basicToolbarOptions.map((option) => (
+    <Toggle
+      key={option.label}
+      onClick={() => option.onClick(editor)}
+      pressed={editor.isActive(option.value)}
+    >
+      {option.icon}
+    </Toggle>
+  ));
 
-  return (
-    <>
-      {basicToolbarOptions.map((option) => (
-        <Toggle
-          key={option.label}
-          onClick={() => option.onClick(editor)}
-          pressed={editor.isActive(option.value)}
-        >
-          {option.icon}
-        </Toggle>
-      ))}
-    </>
-  );
-};
+const List = ({ editor }: { editor: Editor }) => (
+  <>
+    <Toggle
+      onClick={() => editor.commands.toggleBulletList()}
+      pressed={editor.isActive("bulletList")}
+    >
+      <ListIcon />
+    </Toggle>
+    <Toggle
+      onClick={() => editor.commands.toggleOrderedList()}
+      pressed={editor.isActive("orderedList")}
+    >
+      <ListOrderedIcon />
+    </Toggle>
+  </>
+);
 
-const List = (props: ToolbarProps) => {
-  const { editor } = props;
-
-  return (
-    <>
-      <Toggle
-        onClick={() => editor.commands.toggleBulletList()}
-        pressed={editor.isActive("bulletList")}
-      >
-        <ListIcon />
-      </Toggle>
-      <Toggle
-        onClick={() => editor.commands.toggleOrderedList()}
-        pressed={editor.isActive("orderedList")}
-      >
-        <ListOrderedIcon />
-      </Toggle>
-    </>
-  );
-};
-
-const Toolbar = (props: ToolbarProps) => {
-  const { editor } = props;
-
+const Toolbar = ({
+  editor,
+  fontStyle,
+  setFontStyle,
+}: {
+  editor: Editor;
+  fontStyle: string;
+  setFontStyle: (fontStyle: string) => void;
+}) => {
   const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
 
   const toggleFullScreen = () => {
@@ -149,8 +141,10 @@ const Toolbar = (props: ToolbarProps) => {
         </div>
       </div>
 
-      <div className="px-2 py-4 flex items-center justify-between">
-        <div></div>
+      <div className="p-2 flex items-center justify-between flex-wrap gap-4">
+        <div>
+          <FontSelector fontStyle={fontStyle} setFontStyle={setFontStyle} />
+        </div>
         <div className="flex items-center gap-x-2 text-xs">
           <p>
             <span className="font-medium">{wordsCount}</span> words
