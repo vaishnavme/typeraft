@@ -1,6 +1,7 @@
 import { ReactElement, ReactNode } from "react";
 import type { AppProps } from "next/app";
 import { NextPage } from "next";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
 import "@/styles/globals.css";
 import Layout from "@/components/layout/layout";
 
@@ -15,5 +16,13 @@ type AppPropsWithLayout = AppProps & {
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout || ((page) => <Layout>{page}</Layout>);
 
-  return <div>{getLayout(<Component {...pageProps} />)}</div>;
+  return (
+    <NextThemesProvider
+      attribute="class"
+      defaultTheme="system"
+      disableTransitionOnChange
+    >
+      <div>{getLayout(<Component {...pageProps} />)}</div>
+    </NextThemesProvider>
+  );
 }
