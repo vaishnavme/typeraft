@@ -83,9 +83,12 @@ const ExportContent = ({ editor }: { editor: Editor }) => {
     const node = document.getElementById("typeraft");
 
     if (!node) return;
+
+    const elementWidth = node.getBoundingClientRect().width;
+
     toPng(node, {
       quality: 1,
-      width: 832,
+      width: elementWidth + 64,
       style: {
         padding: "32px",
       },
@@ -130,7 +133,6 @@ const ExportContent = ({ editor }: { editor: Editor }) => {
     const turndownService = new turndown();
 
     const markdownContent = turndownService.turndown(htmlContent);
-    console.log("markdownContent: ", markdownContent);
     const blob = new Blob([markdownContent], { type: "text/markdown" });
     downloadElement({ fileName, blob });
   };
