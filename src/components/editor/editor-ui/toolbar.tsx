@@ -78,15 +78,7 @@ const List = ({ editor }: { editor: Editor }) => (
   </>
 );
 
-const Toolbar = ({
-  editor,
-  fontStyle,
-  setFontStyle,
-}: {
-  editor: Editor;
-  fontStyle: string;
-  setFontStyle: (fontStyle: string) => void;
-}) => {
+const MoodSetup = () => {
   const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
 
   const toggleFullScreen = () => {
@@ -101,6 +93,24 @@ const Toolbar = ({
     }
   };
 
+  return (
+    <div className="flex items-center gap-1">
+      <Button onClick={toggleFullScreen} variant="ghost" size="icon">
+        {isFullScreen ? <MinimizeIcon /> : <MaximizeIcon />}
+      </Button>
+      <ThemeSwitch />
+    </div>
+  );
+};
+const Toolbar = ({
+  editor,
+  fontStyle,
+  setFontStyle,
+}: {
+  editor: Editor;
+  fontStyle: string;
+  setFontStyle: (fontStyle: string) => void;
+}) => {
   if (!editor) {
     return null;
   }
@@ -131,13 +141,14 @@ const Toolbar = ({
           >
             <CodeIcon />
           </Toggle>
+
+          <div className="block sm:hidden">
+            <MoodSetup />
+          </div>
         </div>
 
-        <div className="flex items-center gap-1">
-          <Button onClick={toggleFullScreen} variant="ghost" size="icon">
-            {isFullScreen ? <MinimizeIcon /> : <MaximizeIcon />}
-          </Button>
-          <ThemeSwitch />
+        <div className="hidden sm:block">
+          <MoodSetup />
         </div>
       </div>
 
