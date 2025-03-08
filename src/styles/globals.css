@@ -123,3 +123,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+* {
+  @apply !text-stone-900 !dark:text-stone-100;
+}
