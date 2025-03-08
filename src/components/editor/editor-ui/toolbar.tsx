@@ -20,6 +20,8 @@ import { Button } from "@/components/ui/button";
 import BlockSelector from "./block-selector";
 import TextAlignSelector from "./text-align";
 import FontSelector from "./font-selector";
+import ExportContent from "./export-content";
+import ScreenShot from "./screenshot";
 
 const Seperator = () => <div className="h-6 w-px bg-border" />;
 
@@ -78,7 +80,7 @@ const List = ({ editor }: { editor: Editor }) => (
   </>
 );
 
-const MoodSetup = () => {
+const MoodSetup = ({ editor }: { editor: Editor }) => {
   const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
 
   const toggleFullScreen = () => {
@@ -95,6 +97,8 @@ const MoodSetup = () => {
 
   return (
     <div className="flex items-center gap-1">
+      <ScreenShot />
+      <ExportContent editor={editor} />
       <Button onClick={toggleFullScreen} variant="ghost" size="icon">
         {isFullScreen ? <MinimizeIcon /> : <MaximizeIcon />}
       </Button>
@@ -143,12 +147,12 @@ const Toolbar = ({
           </Toggle>
 
           <div className="block sm:hidden">
-            <MoodSetup />
+            <MoodSetup editor={editor} />
           </div>
         </div>
 
         <div className="hidden sm:block">
-          <MoodSetup />
+          <MoodSetup editor={editor} />
         </div>
       </div>
 

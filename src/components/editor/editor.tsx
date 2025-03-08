@@ -17,6 +17,7 @@ const Editor = () => {
     immediatelyRender: false,
     editorProps: {
       attributes: {
+        id: "typeraft",
         class: typeraft_prose_styles,
       },
     },
@@ -27,13 +28,13 @@ const Editor = () => {
   }
 
   return (
-    <div className="w-full space-y-20 mb-20">
+    <div className="w-full space-y-10 mb-20">
       <Toolbar
         editor={editor}
         fontStyle={fontStyle}
         setFontStyle={setFontStyle}
       />
-      <div className={fontStyle}>
+      <div className={`${fontStyle} w-full`}>
         <EditorContent editor={editor} />
       </div>
     </div>
