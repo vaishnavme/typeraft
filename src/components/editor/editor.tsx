@@ -23,7 +23,7 @@ const Editor = () => {
   }
 
   return (
-    <div className="w-full space-y-10">
+    <div className="w-full space-y-20 mb-20">
       <Toolbar editor={editor} />
       <EditorContent editor={editor} />
     </div>
