@@ -1,11 +1,13 @@
 import { Editor } from "@tiptap/react";
 import turndown from "turndown";
+import { toPng } from "html-to-image";
 import {
   DownloadIcon,
   FileCodeIcon,
   FileDownIcon,
   FileTextIcon,
   FileTypeIcon,
+  FullscreenIcon,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -14,15 +16,22 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 const export_actions = {
   text: "text",
   html: "html",
   markdown: "markdown",
   pdf: "pdf",
+  screenshot: "screenshot",
 } as const;
 
 const export_options = [
+  {
+    label: "Screenshot",
+    icon: <FullscreenIcon />,
+    action: export_actions.screenshot,
+  },
   {
     label: "Markdown",
     icon: <FileDownIcon />,
@@ -69,6 +78,29 @@ const ExportContent = ({ editor }: { editor: Editor }) => {
     return `${Date.now().toString()}.${type}`;
   };
 
+  const downloadScreenshot = async () => {
+    const fileName = `${Date.now().toString()}.png`;
+    const node = document.getElementById("typeraft");
+
+    if (!node) return;
+    toPng(node, {
+      quality: 1,
+      width: 832,
+      style: {
+        padding: "32px",
+      },
+    })
+      .then((dataUrl) => {
+        const link = document.createElement("a");
+        link.download = fileName;
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch((err) => {
+        toast("Could not download screenshot. ", err.message);
+      });
+  };
+
   const downloadText = () => {
     const textContent = editor.getText();
     const fileName = getFileName("txt");
@@ -105,6 +137,10 @@ const ExportContent = ({ editor }: { editor: Editor }) => {
 
   const handleExportOption = (action: string) => {
     switch (action) {
+      case export_actions.screenshot:
+        downloadScreenshot();
+        break;
+
       case export_actions.text:
         downloadText();
         break;

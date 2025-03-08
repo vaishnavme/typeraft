@@ -21,7 +21,6 @@ import BlockSelector from "./block-selector";
 import TextAlignSelector from "./text-align";
 import FontSelector from "./font-selector";
 import ExportContent from "./export-content";
-import ScreenShot from "./screenshot";
 
 const Seperator = () => <div className="h-6 w-px bg-border" />;
 
@@ -97,7 +96,6 @@ const MoodSetup = ({ editor }: { editor: Editor }) => {
 
   return (
     <div className="flex items-center gap-1">
-      <ScreenShot />
       <ExportContent editor={editor} />
       <Button onClick={toggleFullScreen} variant="ghost" size="icon">
         {isFullScreen ? <MinimizeIcon /> : <MaximizeIcon />}
