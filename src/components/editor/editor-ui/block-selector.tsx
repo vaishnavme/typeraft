@@ -1,6 +1,7 @@
 import { Editor } from "@tiptap/react";
 import {
   CheckIcon,
+  ChevronDownIcon,
   Heading1Icon,
   Heading2Icon,
   Heading3Icon,
@@ -59,11 +60,12 @@ const BlockSelector = ({ editor }: { editor: Editor }) => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button type="button">
-          <Button variant="ghost" size="icon" asChild>
+          <Button variant="outline" asChild>
             <div>
               {activeHeading
                 ? BLOCK_ICONS[activeHeading]
                 : BLOCK_ICONS.paragraph}
+              <ChevronDownIcon />
             </div>
           </Button>
         </button>

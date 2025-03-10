@@ -5,7 +5,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { CheckIcon } from "lucide-react";
+import { CheckIcon, ChevronDownIcon } from "lucide-react";
 
 export const fontStyles = {
   sans: "font-sans",
@@ -43,7 +43,10 @@ const FontSelector = ({
       <DropdownMenuTrigger asChild>
         <button type="button">
           <Button variant="outline" size="sm" asChild>
-            <div className="whitespace-nowrap">{activeFont?.label}</div>
+            <div className="whitespace-nowrap">
+              {activeFont?.label}
+              <ChevronDownIcon />
+            </div>
           </Button>
         </button>
       </DropdownMenuTrigger>
