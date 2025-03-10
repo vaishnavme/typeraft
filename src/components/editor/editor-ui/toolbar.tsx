@@ -21,6 +21,7 @@ import BlockSelector from "./block-selector";
 import TextAlignSelector from "./text-align";
 import FontSelector from "./font-selector";
 import ExportContent from "./export-content";
+import TextHightlight from "./text-highlight";
 
 const Seperator = () => <div className="h-6 w-px bg-border" />;
 
@@ -143,6 +144,8 @@ const Toolbar = ({
           >
             <CodeIcon />
           </Toggle>
+          <Seperator />
+          <TextHightlight editor={editor} />
 
           <div className="block sm:hidden">
             <MoodSetup editor={editor} />
