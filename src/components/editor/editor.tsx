@@ -10,9 +10,6 @@ const Editor = () => {
 
   const editor = useEditor({
     extensions,
-    onUpdate: ({ editor: editorInstance }) => {
-      console.log(editorInstance.getHTML());
-    },
     content: placeholder_content,
     immediatelyRender: false,
     editorProps: {

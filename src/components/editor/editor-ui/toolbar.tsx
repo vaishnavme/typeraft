@@ -22,6 +22,7 @@ import TextAlignSelector from "./text-align";
 import FontSelector from "./font-selector";
 import ExportContent from "./export-content";
 import TextHightlight from "./text-highlight";
+import AttachIframe from "./attach-iframe";
 
 const Seperator = () => <div className="h-6 w-px bg-border" />;
 
@@ -146,6 +147,7 @@ const Toolbar = ({
           </Toggle>
           <Seperator />
           <TextHightlight editor={editor} />
+          <AttachIframe editor={editor} />
 
           <div className="block sm:hidden">
             <MoodSetup editor={editor} />

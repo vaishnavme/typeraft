@@ -130,6 +130,14 @@
   }
 }
 
+.prose iframe {
+  @apply w-full aspect-video rounded-lg mt-8;
+}
+
+.tippy-box {
+  background-color: transparent !important;
+}
+
 blockquote {
   quotes: "“" "”" !important;
 }
