@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Editor, ReactRenderer } from "@tiptap/react";
 import { SuggestionProps } from "@tiptap/suggestion";
 import {
@@ -10,7 +11,7 @@ import tippy, { Instance as TippyInstance } from "tippy.js";
 
 const tippySuggestion = (
   SuggestionComponent:
-    | ComponentClass<object, any>
+    | ComponentClass<object, unknown>
     | FunctionComponent<object>
     | ForwardRefExoticComponent<object & RefAttributes<unknown>>
 ) => {
@@ -18,7 +19,7 @@ const tippySuggestion = (
   let component: ReactRenderer;
 
   return {
-    onStart: (props: { clientRect: any; editor: Editor }) => {
+    onStart: (props: { clientRect: unknown; editor: Editor }) => {
       const { editor: editorInstance } = props;
 
       component = new ReactRenderer(SuggestionComponent, {
@@ -30,6 +31,7 @@ const tippySuggestion = (
         return;
       }
 
+      // @ts-expect-error
       popup = tippy("body", {
         getReferenceClientRect: props.clientRect,
         appendTo: () => document.body,
@@ -50,6 +52,7 @@ const tippySuggestion = (
       });
     },
 
+    // @ts-expect-error
     onKeyDown(props) {
       if (props.event.key === "Escape") {
         popup[0].hide();
@@ -57,6 +60,7 @@ const tippySuggestion = (
         return true;
       }
 
+      // @ts-expect-error
       return component.ref?.onKeyDown(props);
     },
 

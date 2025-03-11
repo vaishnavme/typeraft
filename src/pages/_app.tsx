@@ -7,7 +7,7 @@ import "@/styles/globals.css";
 import Layout from "@/components/layout/layout";
 import { Toaster } from "@/components/ui/sonner";
 
-export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
 

@@ -5,7 +5,6 @@ import {
   DownloadIcon,
   FileCodeIcon,
   FileDownIcon,
-  FileTextIcon,
   FileTypeIcon,
   FullscreenIcon,
 } from "lucide-react";
