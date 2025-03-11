@@ -5,8 +5,8 @@ import TextAlign from "@tiptap/extension-text-align";
 import Typography from "@tiptap/extension-typography";
 import Link from "@tiptap/extension-link";
 import Highlight from "@tiptap/extension-highlight";
-import ColorHighlighter from "./ColorHighlighter";
-import Codeblock from "./Codeblock";
+import ColorHighlighter from "./color-highlighter";
+import Codeblock from "./code-block";
 import Emoji from "./Emoji";
 
 const extensions = [
