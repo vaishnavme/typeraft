@@ -7,6 +7,7 @@ import Link from "@tiptap/extension-link";
 import Highlight from "@tiptap/extension-highlight";
 import ColorHighlighter from "./ColorHighlighter";
 import Codeblock from "./Codeblock";
+import Emoji from "./Emoji";
 
 const extensions = [
   StarterKit.configure({
@@ -22,6 +23,7 @@ const extensions = [
     types: ["heading", "paragraph"],
   }),
   Codeblock,
+  Emoji,
 ];
 
 export default extensions;

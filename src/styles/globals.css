@@ -130,6 +130,10 @@
   }
 }
 
+.tippy-box {
+  background-color: transparent !important;
+}
+
 blockquote {
   quotes: "“" "”" !important;
 }
