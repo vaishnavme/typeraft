@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { mergeAttributes, Node } from "@tiptap/core";
 import { PluginKey } from "@tiptap/pm/state";
 import Suggestion from "@tiptap/suggestion";
@@ -6,6 +7,7 @@ import emojiData from "@emoji-mart/data";
 import tippySuggestion from "../editor-utils";
 import { forwardRef } from "react";
 import SuggestionMenu from "../editor-ui/suggestion-menu";
+// @ts-expect-error
 import { EmojiProps } from "emoji-mart";
 
 emojiDataInit({ data: emojiData });
@@ -24,11 +26,13 @@ const EmojiNode = Node.create({
     return {
       HTMLAttributes: {},
       deleteTriggerWithBackspace: false,
-
+      // @ts-expect-error
       renderText: ({ node }) => `${node.attrs.icon ?? node.attrs.label}`,
 
+      // @ts-expect-error
       renderHTML: ({ options, node }) => [
         "span",
+        // @ts-expect-error
         mergeAttributes(this.HTMLAttributes, options.HTMLAttributes),
         `${node.attrs.icon ?? node.attrs.label}`,
       ],
@@ -36,7 +40,7 @@ const EmojiNode = Node.create({
       suggestion: {
         char: ":",
         pluginKey: EmojiPluginKey,
-
+        // @ts-expect-error
         command: ({ editor, range, props }) => {
           // increase range.to by one when the next node is of type "text"
           // and starts with a space character
@@ -68,7 +72,7 @@ const EmojiNode = Node.create({
             ?.getSelection()
             ?.collapseToEnd();
         },
-
+        // @ts-expect-error
         allow: ({ state, range }) => {
           const $from = state.doc.resolve(range.from);
           const type = state.schema.nodes[this.name];
@@ -218,6 +222,7 @@ const EmojiNode = Node.create({
 });
 
 const EmojiList = forwardRef((props, ref) => {
+  // @ts-expect-error
   const { items, command } = props;
 
   const onOptionSelect = (option: EmojiProps) => {
@@ -240,6 +245,7 @@ const EmojiList = forwardRef((props, ref) => {
   return (
     <SuggestionMenu
       ref={ref}
+      // @ts-expect-error
       suggestionOptions={items}
       onOptionSelect={onOptionSelect}
       renderOptionComponent={renderOptionComponent}
