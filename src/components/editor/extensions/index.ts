@@ -8,6 +8,7 @@ import Highlight from "@tiptap/extension-highlight";
 import ColorHighlighter from "./color-highlighter";
 import Codeblock from "./code-block";
 import Emoji from "./Emoji";
+import Iframe from "./iframe";
 
 const extensions = [
   StarterKit.configure({
@@ -24,6 +25,7 @@ const extensions = [
   }),
   Codeblock,
   Emoji,
+  Iframe,
 ];
 
 export default extensions;
