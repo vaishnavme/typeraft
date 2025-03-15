@@ -115,7 +115,7 @@ const MoodSetup = ({ editor }: { editor: Editor }) => {
         variant="ghost"
         size="icon"
         data-tooltip-id="full-screen"
-        data-tooltip-content="Full Screen"
+        data-tooltip-content={isFullScreen ? "Minimize Screen" : "Focus mode"}
       >
         {isFullScreen ? <MinimizeIcon /> : <MaximizeIcon />}
       </Button>
