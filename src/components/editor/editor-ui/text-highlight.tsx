@@ -4,6 +4,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import Tooltip from "@/components/ui/tooltip";
 import { Editor } from "@tiptap/react";
 import { HighlighterIcon } from "lucide-react";
 
@@ -13,11 +14,18 @@ const TextHightlight = ({ editor }: { editor: Editor }) => (
   <Popover>
     <PopoverTrigger asChild>
       <button type="button">
-        <Button variant="ghost" size="icon" asChild>
+        <Button
+          variant="ghost"
+          size="icon"
+          asChild
+          data-tooltip-id="text-highlight"
+          data-tooltip-content="Text Highlight"
+        >
           <div>
             <HighlighterIcon />
           </div>
         </Button>
+        <Tooltip id="text-highlight" />
       </button>
     </PopoverTrigger>
     <PopoverContent className="w-48">

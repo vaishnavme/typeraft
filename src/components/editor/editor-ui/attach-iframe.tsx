@@ -15,6 +15,7 @@ import { TvMinimalIcon } from "lucide-react";
 import { useState } from "react";
 import { getEmbedURL } from "../editor-utils";
 import { toast } from "sonner";
+import Tooltip from "@/components/ui/tooltip";
 
 const AttachIframe = ({ editor }: { editor: Editor }) => {
   const [url, setURL] = useState<string>("");
@@ -39,8 +40,14 @@ const AttachIframe = ({ editor }: { editor: Editor }) => {
   return (
     <Dialog onOpenChange={() => setURL("")}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button
+          variant="ghost"
+          size="icon"
+          data-tooltip-id="attach-embed"
+          data-tooltip-content="Attach Embed"
+        >
           <TvMinimalIcon />
+          <Tooltip id="attach-embed" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

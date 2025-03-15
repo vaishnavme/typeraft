@@ -13,6 +13,7 @@ import {
   AlignRightIcon,
   CheckIcon,
 } from "lucide-react";
+import Tooltip from "@/components/ui/tooltip";
 
 const alignOptions = ["left", "right", "center"] as const;
 
@@ -59,9 +60,16 @@ const TextAlignSelector = ({ editor }: { editor: Editor }) => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button type="button">
-          <Button variant="ghost" size="icon" asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            asChild
+            data-tooltip-id="text-align"
+            data-tooltip-content="Text Alignment"
+          >
             <div>{activeAlignmentIcon}</div>
           </Button>
+          <Tooltip id="text-align" />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-28">

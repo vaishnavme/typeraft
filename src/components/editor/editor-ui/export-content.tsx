@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import Tooltip from "@/components/ui/tooltip";
 
 const export_actions = {
   text: "text",
@@ -163,11 +164,18 @@ const ExportContent = ({ editor }: { editor: Editor }) => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button type="button">
-          <Button variant="ghost" size="icon" asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            asChild
+            data-tooltip-id="export-content"
+            data-tooltip-content="Export Content"
+          >
             <div className="whitespace-nowrap">
               <DownloadIcon />
             </div>
           </Button>
+          <Tooltip id="export-content" />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-36">

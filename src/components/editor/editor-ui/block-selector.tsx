@@ -14,6 +14,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Tooltip from "@/components/ui/tooltip";
 
 const BLOCK_ICONS = {
   paragraph: <PilcrowIcon />,
@@ -60,7 +61,12 @@ const BlockSelector = ({ editor }: { editor: Editor }) => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button type="button">
-          <Button variant="outline" asChild>
+          <Button
+            variant="outline"
+            asChild
+            data-tooltip-id="block-elements"
+            data-tooltip-content="Heading Block"
+          >
             <div>
               {activeHeading
                 ? BLOCK_ICONS[activeHeading]
@@ -68,6 +74,7 @@ const BlockSelector = ({ editor }: { editor: Editor }) => {
               <ChevronDownIcon />
             </div>
           </Button>
+          <Tooltip id="block-elements" />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">

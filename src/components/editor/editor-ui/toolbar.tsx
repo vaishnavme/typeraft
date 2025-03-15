@@ -23,6 +23,7 @@ import FontSelector from "./font-selector";
 import ExportContent from "./export-content";
 import TextHightlight from "./text-highlight";
 import AttachIframe from "./attach-iframe";
+import Tooltip from "@/components/ui/tooltip";
 
 const Seperator = () => <div className="h-6 w-px bg-border" />;
 
@@ -55,13 +56,17 @@ const basicToolbarOptions = [
 
 const BasicTools = ({ editor }: { editor: Editor }) =>
   basicToolbarOptions.map((option) => (
-    <Toggle
-      key={option.label}
-      onClick={() => option.onClick(editor)}
-      pressed={editor.isActive(option.value)}
-    >
-      {option.icon}
-    </Toggle>
+    <div key={option.label}>
+      <Toggle
+        onClick={() => option.onClick(editor)}
+        pressed={editor.isActive(option.value)}
+        data-tooltip-id={option.value}
+        data-tooltip-content={option.label}
+      >
+        {option.icon}
+      </Toggle>
+      <Tooltip id={option.value} />
+    </div>
   ));
 
 const List = ({ editor }: { editor: Editor }) => (
@@ -69,15 +74,21 @@ const List = ({ editor }: { editor: Editor }) => (
     <Toggle
       onClick={() => editor.commands.toggleBulletList()}
       pressed={editor.isActive("bulletList")}
+      data-tooltip-id="bullet-list"
+      data-tooltip-content="Bullet List"
     >
       <ListIcon />
     </Toggle>
     <Toggle
       onClick={() => editor.commands.toggleOrderedList()}
       pressed={editor.isActive("orderedList")}
+      data-tooltip-id="ordered-list"
+      data-tooltip-content="Ordered List"
     >
       <ListOrderedIcon />
     </Toggle>
+    <Tooltip id="bullet-list" />
+    <Tooltip id="ordered-list" />
   </>
 );
 
@@ -99,10 +110,17 @@ const MoodSetup = ({ editor }: { editor: Editor }) => {
   return (
     <div className="flex items-center gap-1">
       <ExportContent editor={editor} />
-      <Button onClick={toggleFullScreen} variant="ghost" size="icon">
+      <Button
+        onClick={toggleFullScreen}
+        variant="ghost"
+        size="icon"
+        data-tooltip-id="full-screen"
+        data-tooltip-content="Full Screen"
+      >
         {isFullScreen ? <MinimizeIcon /> : <MaximizeIcon />}
       </Button>
       <ThemeSwitch />
+      <Tooltip id="full-screen" />
     </div>
   );
 };
@@ -133,18 +151,24 @@ const Toolbar = ({
           <List editor={editor} />
           <Seperator />
           <Toggle
-            onClick={() => editor.commands.toggleBlockquote()}
+            data-tooltip-id="blockquote"
+            data-tooltip-content="Blockquote"
             pressed={editor.isActive("blockquote")}
+            onClick={() => editor.commands.toggleBlockquote()}
           >
             <QuoteIcon />
           </Toggle>
+          <Tooltip id="blockquote" />
           <TextAlignSelector editor={editor} />
           <Toggle
-            onClick={() => editor.commands.toggleCodeBlock()}
+            data-tooltip-id="codeblock"
+            data-tooltip-content="Codeblock"
             pressed={editor.isActive("codeblock")}
+            onClick={() => editor.commands.toggleCodeBlock()}
           >
             <CodeIcon />
           </Toggle>
+          <Tooltip id="codeblock" />
           <Seperator />
           <TextHightlight editor={editor} />
           <AttachIframe editor={editor} />
