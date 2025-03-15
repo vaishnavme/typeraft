@@ -113,7 +113,9 @@ export const getEmbedURL = (url: string) => {
       }
 
       if (url.includes("playlist")) {
-        return "Currently playlist embed are not supported. Please add video url.";
+        throw new Error(
+          "Currently playlist embed are not supported. Please add video url."
+        );
       }
 
       const youTubeRegex =
