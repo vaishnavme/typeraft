@@ -13,18 +13,31 @@ import { DialogTrigger } from "@radix-ui/react-dialog";
 import { Editor } from "@tiptap/react";
 import { TvMinimalIcon } from "lucide-react";
 import { useState } from "react";
+import { getEmbedURL } from "../editor-utils";
+import { toast } from "sonner";
 
 const AttachIframe = ({ editor }: { editor: Editor }) => {
-  const [embedURL, setEmbedURL] = useState<string>("");
+  const [url, setURL] = useState<string>("");
 
   const onAttachURL = () => {
-    if (!embedURL) return;
+    if (!url) {
+      toast("Please add url.");
+      return;
+    }
 
-    editor.chain().focus().setIframe({ src: embedURL }).run();
+    try {
+      const embedURL = getEmbedURL(url);
+      if (embedURL) {
+        editor.chain().focus().setIframe({ src: embedURL }).run();
+      }
+    } catch (err) {
+      const errorMsg = (err as Error)?.message || "Something went wrong.";
+      toast.error(errorMsg);
+    }
   };
 
   return (
-    <Dialog onOpenChange={() => setEmbedURL("")}>
+    <Dialog onOpenChange={() => setURL("")}>
       <DialogTrigger asChild>
         <Button variant="ghost" size="icon">
           <TvMinimalIcon />
@@ -38,33 +51,15 @@ const AttachIframe = ({ editor }: { editor: Editor }) => {
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-6">
-          <div>
-            {embedURL ? (
-              <div className="w-full h-48 rounded-md overflow-hidden">
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src={embedURL}
-                  className="aspect-video w-full h-full"
-                />
-              </div>
-            ) : (
-              <div className="w-full h-48 border border-dashed rounded-2xl flex items-center justify-center aspect-video">
-                <p className="text-xs text-accent-foreground">
-                  Preview Iframe here
-                </p>
-              </div>
-            )}
-          </div>
           <Input
             type="url"
-            value={embedURL}
+            value={url}
             placeholder="https://embed-url-here.com"
-            onChange={(e) => setEmbedURL(e.target.value)}
+            onChange={(e) => setURL(e.target.value)}
           />
         </div>
         <DialogFooter>
-          <DialogClose>
+          <DialogClose asChild>
             <Button onClick={onAttachURL}>Attach</Button>
           </DialogClose>
         </DialogFooter>

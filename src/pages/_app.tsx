@@ -3,9 +3,9 @@ import type { AppProps } from "next/app";
 import { NextPage } from "next";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { Geist, Geist_Mono, IBM_Plex_Serif } from "next/font/google";
+import { Toaster } from "sonner";
 import "@/styles/globals.css";
 import Layout from "@/components/layout/layout";
-import { Toaster } from "@/components/ui/sonner";
 
 export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -46,7 +46,7 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
       >
         {getLayout(<Component {...pageProps} />)}
       </div>
-      <Toaster />
+      <Toaster richColors />
     </NextThemesProvider>
   );
 }

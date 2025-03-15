@@ -9,7 +9,7 @@ import {
 } from "react";
 import tippy, { Instance as TippyInstance } from "tippy.js";
 
-const tippySuggestion = (
+export const tippySuggestion = (
   SuggestionComponent:
     | ComponentClass<object, unknown>
     | FunctionComponent<object>
@@ -71,4 +71,118 @@ const tippySuggestion = (
   };
 };
 
-export default tippySuggestion;
+const allowed_urls = [
+  "youtube.com",
+  "loom.com",
+  "codesandbox.io",
+  "vimeo.com",
+  "codepen.io",
+];
+
+const getEmbedType = (url: string) => {
+  const hostname = new URL(url.replace("www.", "")).hostname;
+
+  if (["youtu.be", "youtube.com"].includes(hostname)) {
+    return "youtube.com";
+  }
+
+  return hostname;
+};
+
+export const isAllowedURL = (url: string) => {
+  const hostname = getEmbedType(url);
+
+  if (!allowed_urls.includes(hostname)) {
+    return false;
+  }
+
+  return true;
+};
+
+export const getEmbedURL = (url: string) => {
+  if (!url) {
+    throw new Error("Invalid URL");
+  }
+
+  const embedType = getEmbedType(url);
+  console.log("embedType: ", embedType);
+  switch (embedType) {
+    case "youtube.com": {
+      if (url.includes("embed")) {
+        return url;
+      }
+
+      if (url.includes("playlist")) {
+        return "Currently playlist embed are not supported. Please add video url.";
+      }
+
+      const youTubeRegex =
+        /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/|shorts\/)|(?:(?:watch)?\?v(?:i)?=|&v(?:i)?=))([^#&?]*).*/;
+      const parsed = url.match(youTubeRegex);
+      const videoId = parsed?.[1] || null;
+
+      if (!videoId) {
+        throw new Error(
+          "Could not find youtube videoId. Please add valid youtube url"
+        );
+      }
+      return `https://www.youtube.com/embed/${videoId}`;
+    }
+
+    case "loom.com": {
+      if (!url.includes("share") && !url.includes("embed")) {
+        throw new Error(
+          "Could not find loom videoId. Please add valid loom url."
+        );
+      }
+
+      const loomId = url.includes("embed")
+        ? url.split("/embed/")[1]
+        : url.split("/share/")[1];
+
+      return `https://www.loom.com/embed/${loomId}?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=true.`;
+    }
+
+    case "vimeo.com": {
+      const videoId = url.split("/").pop();
+
+      if (!videoId) {
+        throw new Error(
+          "Could not find vimeo videoId. Please add valid vimeo url."
+        );
+      }
+
+      return `https://player.vimeo.com/video/${videoId}`;
+    }
+
+    case "codesandbox.io": {
+      if (!url.includes("embed")) {
+        throw new Error(
+          "Please use codesanbox embed url. Please visit: https://codesandbox.io/docs/learn/sandboxes/embedding"
+        );
+      }
+
+      return url;
+    }
+
+    case "codepen.io": {
+      if (url.includes("embed")) {
+        return url;
+      }
+
+      const match = url.match(/codepen\.io\/([^\/]+)\/pen\/([^\/]+)/);
+
+      const author_name = match?.[1];
+      const embed_id = match?.[2];
+
+      if (!author_name || !embed_id) {
+        throw new Error("Could not generate codepen embed url.");
+      }
+
+      return `https://codepen.io/${author_name}/embed/preview/${embed_id}`;
+    }
+
+    default:
+      throw new Error("Could not generate embed url");
+  }
+};

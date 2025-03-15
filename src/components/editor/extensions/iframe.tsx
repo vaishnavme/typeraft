@@ -58,6 +58,11 @@ const Iframe = Node.create<IframeOptions>({
   },
 
   renderHTML({ HTMLAttributes }) {
+    const src = HTMLAttributes.src;
+    if (!src) {
+      return new DocumentFragment();
+    }
+
     return ["div", this.options.HTMLAttributes, ["iframe", HTMLAttributes]];
   },
 

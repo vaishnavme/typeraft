@@ -4,11 +4,11 @@ import { PluginKey } from "@tiptap/pm/state";
 import Suggestion from "@tiptap/suggestion";
 import { SearchIndex as emojiSearch, init as emojiDataInit } from "emoji-mart";
 import emojiData from "@emoji-mart/data";
-import tippySuggestion from "../editor-utils";
 import { forwardRef } from "react";
 import SuggestionMenu from "../editor-ui/suggestion-menu";
 // @ts-expect-error
 import { EmojiProps } from "emoji-mart";
+import { tippySuggestion } from "../editor-utils";
 
 emojiDataInit({ data: emojiData });
 

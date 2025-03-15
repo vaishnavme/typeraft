@@ -131,7 +131,7 @@
 }
 
 .prose iframe {
-  @apply w-full aspect-video rounded-lg mt-8;
+  @apply w-full aspect-video rounded-lg my-8;
 }
 
 .tippy-box {
