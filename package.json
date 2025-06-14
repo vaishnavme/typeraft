@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tiptap/extension-link": "^2.14.0",
     "@tiptap/extension-placeholder": "^2.14.0",
     "@tiptap/pm": "^2.14.0",
     "@tiptap/react": "^2.14.0",

@@ -21,12 +21,13 @@ const ThemeToggle = () => {
   };
 
   return (
-    <span className="flex items-center gap-x-1 text-xs mr-6">
-      Themes [{theme}]
-      <button type="button" onClick={handleNextTheme}>
-        <ArrowUpDownIcon className="rotate-90 size-3" />
-      </button>
-    </span>
+    <button
+      type="button"
+      onClick={handleNextTheme}
+      className="p-0.5 flex items-center gap-x-1 text-xxs select-none hover:opacity-100 opacity-70 transition-opacity duration-150 jetbrains-mono accent"
+    >
+      themes [{theme}]<ArrowUpDownIcon className="rotate-90 size-3" />
+    </button>
   );
 };
 
