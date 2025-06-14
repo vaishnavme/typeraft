@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,6 +13,10 @@
     --background: #fefefe;
     --text-secondary: #4a4a4a;
     --background-secondary: #f8f9fa;
+
+    --font-geist: "Geist", sans-serif;
+    --font-ibm-plex: "IBM Plex Serif", serif;
+    --font-jetbrains-mono: "JetBrains Mono", monospace;
   }
 
   .ink {
@@ -78,7 +84,6 @@
   }
 
   body {
-    font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
     line-height: 1.75;
     color: var(--text);
     background-color: var(--background);
@@ -106,8 +111,24 @@
   }
 }
 
+.jetbrains-mono {
+  font-family: var(--font-jetbrains-mono);
+}
+
+.geist {
+  font-family: var(--font-geist);
+}
+
+.ibm-plex {
+  font-family: var(--font-ibm-plex);
+}
+
 * {
   @apply antialiased;
+}
+
+.drawer-background {
+  background-color: var(--background);
 }
 
 /* Typography Classes */
@@ -418,4 +439,8 @@
   float: left;
   height: 0;
   pointer-events: none;
+}
+
+.accent {
+  color: var(--accent);
 }

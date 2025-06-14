@@ -1,7 +1,9 @@
-import Placeholder from "@tiptap/extension-placeholder";
-import { getRandomNumber } from "../../lib/utils";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import Placeholder from "@tiptap/extension-placeholder";
+import Link from "@tiptap/extension-link";
+import { useTheme } from "../../theme/theme-provider";
+import { getRandomNumber } from "../../lib/utils";
 
 interface EditorProps {
   content: string;
@@ -20,12 +22,18 @@ const getPlaceholder = () =>
 const Editor = (props: EditorProps) => {
   const { content, onChange } = props;
 
+  const { font } = useTheme();
+
   const editor = useEditor(
     {
       content,
       autofocus: true,
       extensions: [
         StarterKit,
+        Link.configure({
+          autolink: true,
+          linkOnPaste: true,
+        }),
         Placeholder.configure({
           placeholder: getPlaceholder(),
         }),
@@ -36,7 +44,7 @@ const Editor = (props: EditorProps) => {
 
       editorProps: {
         attributes: {
-          class: "prose outline-none",
+          class: `prose outline-none w-full h-full ${font}`,
         },
       },
     },

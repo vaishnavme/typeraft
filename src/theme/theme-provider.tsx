@@ -9,6 +9,8 @@ export type Theme =
   | "rose"
   | "ink";
 
+export type Font = "geist" | "ibm-plex" | "jetbrains-mono";
+
 interface ThemeProviderProps {
   children: ReactNode;
 }
@@ -16,10 +18,14 @@ interface ThemeProviderProps {
 interface ThemeContextType {
   theme: Theme;
   setTheme: (theme: Theme) => void;
+  font: Font;
+  setFont: (font: Font) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType>({
+  font: "geist",
   theme: "paper",
+  setFont: () => {},
   setTheme: () => {},
 });
 
@@ -31,17 +37,32 @@ export const useTheme = () => {
 export const ThemeProvider = (props: ThemeProviderProps) => {
   const { children } = props;
 
+  const [appFont, setAppFont] = useState<Font>("geist");
   const [appTheme, setAppTheme] = useState<Theme>("paper");
 
   const setTheme = (nextTheme: Theme) => {
     const root = document.documentElement;
-    root.className = "";
+    root.classList.remove(
+      "paper",
+      "cream",
+      "mist",
+      "sage",
+      "lavender",
+      "rose",
+      "ink"
+    );
     root.classList.add(nextTheme);
     setAppTheme(nextTheme);
   };
 
+  const setFont = (nextFont: Font) => {
+    setAppFont(nextFont);
+  };
+
   return (
-    <ThemeContext.Provider value={{ theme: appTheme, setTheme }}>
+    <ThemeContext.Provider
+      value={{ font: appFont, theme: appTheme, setFont, setTheme }}
+    >
       {children}
     </ThemeContext.Provider>
   );
