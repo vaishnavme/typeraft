@@ -1,5 +1,6 @@
 import { useTheme, type Theme } from "../../theme/theme-provider";
 import { ArrowUpDownIcon } from "../icons";
+import Button from "../ui/button";
 
 const all_themes = [
   "paper",
@@ -21,13 +22,9 @@ const ThemeToggle = () => {
   };
 
   return (
-    <button
-      type="button"
-      onClick={handleNextTheme}
-      className="p-0.5 flex items-center gap-x-1 text-xxs select-none hover:opacity-100 opacity-70 transition-opacity duration-150 jetbrains-mono accent"
-    >
+    <Button.MonoButton onClick={handleNextTheme}>
       themes [{theme}]<ArrowUpDownIcon className="rotate-90 size-3" />
-    </button>
+    </Button.MonoButton>
   );
 };
 

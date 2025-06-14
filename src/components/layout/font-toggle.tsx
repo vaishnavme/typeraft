@@ -1,4 +1,5 @@
 import { useTheme, type Font } from "../../theme/theme-provider";
+import Button from "../ui/button";
 
 const all_fonts = ["geist", "ibm-plex", "jetbrains-mono"];
 
@@ -11,15 +12,7 @@ const FontToggle = () => {
     setFont(all_fonts[nextIndex] as Font);
   };
 
-  return (
-    <button
-      type="button"
-      onClick={handleNextFont}
-      className="p-0.5 flex items-center gap-x-1 text-xxs select-none hover:opacity-100 opacity-70 transition-opacity duration-150 jetbrains-mono accent"
-    >
-      {font}
-    </button>
-  );
+  return <Button.MonoButton onClick={handleNextFont}>{font}</Button.MonoButton>;
 };
 
 export default FontToggle;

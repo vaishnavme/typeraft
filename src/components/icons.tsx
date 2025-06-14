@@ -20,3 +20,24 @@ export const ArrowUpDownIcon = (props: SVGProps<SVGSVGElement>) => (
     />
   </svg>
 );
+
+export const CancelIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    color="currentColor"
+    fill="none"
+    {...props}
+  >
+    <path
+      d="M18 6L6 18m12 0L6 6"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      vectorEffect="non-scaling-stroke"
+    />
+  </svg>
+);
