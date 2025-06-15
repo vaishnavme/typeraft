@@ -1,6 +1,8 @@
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import FontToggle from "./font-toggle";
 import ThemeToggle from "./theme-toggle";
+import store, { storeKeys } from "../../lib/store";
+import { useTheme } from "../../theme/theme-provider";
 
 interface LayoutProps {
   children: ReactNode;
@@ -8,6 +10,26 @@ interface LayoutProps {
 
 const Layout = (props: LayoutProps) => {
   const { children } = props;
+
+  const { setFont, setTheme } = useTheme();
+
+  const loadSavedConfig = async () => {
+    try {
+      await store.init();
+      const [configTheme, configFont] = await Promise.all([
+        store.getItem(storeKeys.theme),
+        store.getItem(storeKeys.font),
+      ]);
+      if (configFont) setFont(configFont);
+      if (configTheme) setTheme(configTheme);
+    } catch {
+      //
+    }
+  };
+
+  useEffect(() => {
+    loadSavedConfig();
+  }, []);
 
   return (
     <div className="w-full min-h-screen relative antialiased geist">

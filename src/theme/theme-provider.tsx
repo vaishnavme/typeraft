@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
+import store, { storeKeys } from "../lib/store";
 
 export type Theme =
   | "paper"
@@ -53,10 +54,12 @@ export const ThemeProvider = (props: ThemeProviderProps) => {
     );
     root.classList.add(nextTheme);
     setAppTheme(nextTheme);
+    store.addItem(storeKeys.theme, nextTheme);
   };
 
   const setFont = (nextFont: Font) => {
     setAppFont(nextFont);
+    store.addItem(storeKeys.font, nextFont);
   };
 
   return (
