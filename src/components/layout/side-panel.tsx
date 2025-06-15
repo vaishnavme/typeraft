@@ -1,0 +1,27 @@
+import Button from "../ui/button";
+
+interface SidePanelProps {
+  showDrawer: boolean;
+  setShowDrawer: (value: boolean) => void;
+}
+
+const SidePanel = (props: SidePanelProps) => {
+  const { showDrawer, setShowDrawer } = props;
+
+  return (
+    <aside
+      className={`fixed top-0 right-0 h-screen w-72 p-4 bg-background border-l border-border shadow-lg z-40 transform transition-transform duration-300 ease-in-out ${
+        showDrawer ? "translate-x-0" : "translate-x-full"
+      }`}
+    >
+      <div className="w-full flex items-center justify-between">
+        <p className="jetbrains-mono text-accent text-sm">all entries</p>
+        <Button.MonoButton onClick={() => setShowDrawer(false)}>
+          close ✕
+        </Button.MonoButton>
+      </div>
+    </aside>
+  );
+};
+
+export default SidePanel;
