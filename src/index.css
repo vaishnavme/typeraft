@@ -84,6 +84,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 html,
@@ -97,6 +98,7 @@ html {
   background-color: var(--background);
   border-radius: 16px;
   border: 6px solid var(--border);
+  line-height: 1.8rem;
 }
 
 #layout {
@@ -141,11 +143,6 @@ blockquote {
 
 .ibm-plex {
   font-family: var(--font-ibm-plex);
-}
-
-* {
-  @apply antialiased;
-  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .drawer-background {

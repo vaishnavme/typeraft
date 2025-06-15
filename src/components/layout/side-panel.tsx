@@ -15,7 +15,9 @@ const SidePanel = (props: SidePanelProps) => {
       }`}
     >
       <div className="w-full flex items-center justify-between">
-        <p className="jetbrains-mono text-accent text-sm">all entries</p>
+        <p className="jetbrains-mono text-accent text-xs font-medium">
+          all entries
+        </p>
         <Button.MonoButton onClick={() => setShowDrawer(false)}>
           close ✕
         </Button.MonoButton>
