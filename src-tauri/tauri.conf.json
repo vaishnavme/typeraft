@@ -13,6 +13,7 @@
     "macOSPrivateApi": true,
     "windows": [
       {
+        "title": "Typeraft",
         "width": 1024,
         "height": 700,
         "resizable": true,
