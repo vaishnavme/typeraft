@@ -5,8 +5,10 @@ class StoreManager {
   private storePath = "config.json";
   private store!: Store;
 
-  async init() {
-    this.store = await load(this.storePath, { autoSave: false });
+  constructor() {
+    (async () => {
+      this.store = await load(this.storePath, { autoSave: false });
+    })();
   }
 
   async addItem(key: string, value: string) {

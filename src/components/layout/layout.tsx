@@ -18,7 +18,6 @@ const Layout = (props: LayoutProps) => {
 
   const loadSavedConfig = async () => {
     try {
-      await store.init();
       const [configTheme, configFont] = await Promise.all([
         store.getItem(storeKeys.theme),
         store.getItem(storeKeys.font),
