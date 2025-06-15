@@ -39,30 +39,31 @@ const Layout = (props: LayoutProps) => {
     <div
       id="layout"
       data-tauri-drag-region
-      className="relative antialiased geist w-full min-h-screen flex items-start p-4 !overflow-hidden"
+      className="relative antialiased p-4 overflow-hidden rounded-2xl"
     >
-      <main className="w-full">
-        {children}
-        <footer className="fixed w-full left-0 bottom-0 flex items-center justify-between gap-x-2 px-4 opacity-0 h-12 hover:opacity-100 hover:bg-background transition-all ease-in-out text-accent cursor-default rounded-b-xl border-b-6 border-x-6 border-border">
-          <div className="flex items-center gap-x-2">
-            <FontToggle />
-            •
-            <ThemeToggle />
-          </div>
+      <div className="flex items-start geist">
+        <main className="w-full">
+          {children}
+          <footer className="fixed w-full left-0 bottom-0 flex items-center justify-between gap-x-2 px-4 opacity-0 h-12 hover:opacity-100 hover:bg-background transition-all ease-in-out text-accent cursor-default rounded-b-2xl border-b-6 border-x-6 border-border">
+            <div className="flex items-center gap-x-2">
+              <FontToggle />
+              •
+              <ThemeToggle />
+            </div>
 
-          <div className="flex items-center gap-x-2">
-            <Button.MonoButton onClick={() => setShowDrawer(true)}>
-              ← entries
-            </Button.MonoButton>
-            <ToggleFullScreen />
-            <Button.MonoButton onClick={() => getCurrentWindow().close()}>
-              close
-            </Button.MonoButton>
-          </div>
-        </footer>
-      </main>
-
-      <SidePanel showDrawer={showDrawer} setShowDrawer={setShowDrawer} />
+            <div className="flex items-center gap-x-2">
+              <Button.MonoButton onClick={() => setShowDrawer(true)}>
+                ← entries
+              </Button.MonoButton>
+              <ToggleFullScreen />
+              <Button.MonoButton onClick={() => getCurrentWindow().close()}>
+                close
+              </Button.MonoButton>
+            </div>
+          </footer>
+        </main>
+        <SidePanel showDrawer={showDrawer} setShowDrawer={setShowDrawer} />
+      </div>
     </div>
   );
 };

@@ -81,16 +81,30 @@
 }
 
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-#layout {
-  line-height: 1.75;
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+html {
   color: var(--text);
   background-color: var(--background);
-  font-size: 1rem;
+  border-radius: 16px;
   border: 6px solid var(--border);
-  border-radius: 12px;
+}
+
+#layout {
+  height: calc(100vh - 12px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px; /* Slightly smaller than outer border */
+  overflow-y: scroll;
 }
 
 a {
