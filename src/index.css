@@ -89,7 +89,7 @@
   color: var(--text);
   background-color: var(--background);
   font-size: 1rem;
-  border: 1px solid var(--border);
+  border: 6px solid var(--border);
   border-radius: 12px;
 }
 

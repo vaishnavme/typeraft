@@ -39,11 +39,11 @@ const Layout = (props: LayoutProps) => {
     <div
       id="layout"
       data-tauri-drag-region
-      className="relative antialiased geist w-full min-h-screen flex items-start overflow-hidden p-4"
+      className="relative antialiased geist w-full min-h-screen flex items-start p-4 !overflow-hidden"
     >
       <main className="w-full">
         {children}
-        <footer className="fixed w-full left-0 bottom-0 flex items-center justify-between gap-x-2 px-4 opacity-0 h-12 hover:opacity-100 hover:bg-background transition-all ease-in-out text-accent cursor-default rounded-b-xl border-b border-x border-border">
+        <footer className="fixed w-full left-0 bottom-0 flex items-center justify-between gap-x-2 px-4 opacity-0 h-12 hover:opacity-100 hover:bg-background transition-all ease-in-out text-accent cursor-default rounded-b-xl border-b-[6px] border-x-[6px] border-border">
           <div className="flex items-center gap-x-2">
             <FontToggle />
             •
