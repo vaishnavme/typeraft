@@ -15,6 +15,9 @@ export default {
       fontSize: {
         xxs: "10px",
       },
+      borderWidth: {
+        6: "6px",
+      },
     },
   },
   plugins: [],

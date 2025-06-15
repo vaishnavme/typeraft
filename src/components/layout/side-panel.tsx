@@ -10,7 +10,7 @@ const SidePanel = (props: SidePanelProps) => {
 
   return (
     <aside
-      className={`fixed top-0 right-0 h-screen rounded-r-xl w-72 p-4 bg-background border-l border-r-[6px] border-y-[6px] border-border shadow-lg z-40 transform transition-transform duration-300 ease-in-out ${
+      className={`fixed top-0 right-0 h-screen rounded-r-xl w-72 p-4 bg-background border-l border-r-6 border-y-6 border-border shadow-lg z-40 transform transition-transform duration-300 ease-in-out ${
         showDrawer ? "translate-x-0" : "translate-x-full"
       }`}
     >
