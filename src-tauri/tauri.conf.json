@@ -10,12 +10,15 @@
     "beforeBuildCommand": "npm run build"
   },
   "app": {
+    "macOSPrivateApi": true,
     "windows": [
       {
         "width": 1024,
         "height": 700,
         "resizable": true,
-        "fullscreen": false
+        "transparent": true,
+        "fullscreen": false,
+        "decorations": false
       }
     ],
     "security": {
