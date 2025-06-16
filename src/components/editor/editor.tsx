@@ -33,6 +33,7 @@ const Editor = (props: EditorProps) => {
         Link.configure({
           autolink: true,
           linkOnPaste: true,
+          openOnClick: true,
         }),
         Placeholder.configure({
           placeholder: getPlaceholder(),

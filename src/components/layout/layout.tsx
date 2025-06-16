@@ -7,6 +7,7 @@ import { useTheme } from "../../theme/theme-provider";
 import Button from "../ui/button";
 import SidePanel from "./side-panel";
 import ToggleFullScreen from "./toggle-fullscreen";
+import Settings from "./settings";
 
 interface LayoutProps {
   children: ReactNode;
@@ -46,6 +47,7 @@ const Layout = (props: LayoutProps) => {
           {children}
           <footer className="fixed w-full left-0 bottom-0 flex items-center justify-between gap-x-2 px-4 opacity-0 h-12 hover:opacity-100 hover:bg-background transition-all ease-in-out text-accent cursor-default rounded-b-2xl border-b-6 border-x-6 border-border">
             <div className="flex items-center gap-x-2">
+              <Settings />•
               <FontToggle />
               •
               <ThemeToggle />
