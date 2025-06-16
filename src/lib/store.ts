@@ -40,6 +40,7 @@ class StoreManager {
 export const storeKeys = {
   theme: "theme",
   font: "font",
+  path: "path",
 };
 
 const store = new StoreManager();
