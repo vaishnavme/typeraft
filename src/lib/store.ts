@@ -41,6 +41,7 @@ export const storeKeys = {
   theme: "theme",
   font: "font",
   path: "path",
+  stackName: "stackName",
 };
 
 const store = new StoreManager();

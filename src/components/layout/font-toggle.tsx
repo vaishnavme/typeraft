@@ -1,7 +1,7 @@
 import { useTheme, type Font } from "../../theme/theme-provider";
 import Button from "../ui/button";
 
-const all_fonts = ["geist", "ibm-plex", "jetbrains-mono"];
+const all_fonts = ["geist", "ibm-plex", "mono"];
 
 const FontToggle = () => {
   const { font, setFont } = useTheme();
