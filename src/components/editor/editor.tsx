@@ -6,7 +6,7 @@ import { useTheme } from "../../theme/theme-provider";
 import { getRandomNumber } from "../../lib/utils";
 
 interface EditorProps {
-  content: string;
+  content?: string;
   onChange: (content: string) => void;
 }
 
