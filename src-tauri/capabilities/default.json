@@ -2,9 +2,7 @@
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
   "description": "enables the default permissions",
-  "windows": [
-    "main"
-  ],
+  "windows": ["main"],
   "permissions": [
     "core:default",
     "store:default",
@@ -13,6 +11,11 @@
     "core:window:allow-set-fullscreen",
     "core:window:allow-close",
     "fs:default",
-    "dialog:default"
+    "dialog:default",
+    "fs:allow-mkdir",
+    {
+      "identifier": "fs:allow-mkdir",
+      "allow": ["**"]
+    }
   ]
 }

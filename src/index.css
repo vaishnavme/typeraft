@@ -16,11 +16,11 @@
 
     --font-geist: "Geist", sans-serif;
     --font-ibm-plex: "IBM Plex Serif", serif;
-    --font-jetbrains-mono: "JetBrains Mono", monospace;
+    --mono: monospace;
   }
 
   .ink {
-    --accent: #8faadc;
+    --accent: #3b82f6;
     --text: #e8e6e1;
     --border: #3a3a36;
     --secondary: #bab8b1;
@@ -133,8 +133,8 @@ blockquote {
   background-color: var(--background-secondary);
 }
 
-.jetbrains-mono {
-  font-family: var(--font-jetbrains-mono);
+.mono {
+  font-family: var(--mono);
 }
 
 .geist {

@@ -10,7 +10,7 @@ export type Theme =
   | "rose"
   | "ink";
 
-export type Font = "geist" | "ibm-plex" | "jetbrains-mono";
+export type Font = "geist" | "ibm-plex" | "mono";
 
 interface ThemeProviderProps {
   children: ReactNode;

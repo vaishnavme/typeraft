@@ -1,33 +1,52 @@
 import * as tauriDialog from "@tauri-apps/plugin-dialog";
+import * as fs from "@tauri-apps/plugin-fs";
 import { SettingsIcon } from "../icons";
 import Modal from "../ui/modal";
 import { useEffect, useState } from "react";
 import store, { storeKeys } from "../../lib/store";
+import Text from "../ui/text";
+import Button from "../ui/button";
+import Input from "../ui/input";
 
 const Settings = () => {
-  const [vaultPath, setVaultPath] = useState<string>("");
+  const [stackName, setStackName] = useState<string>("");
+  const [stackPath, setStackPath] = useState<string>("");
+  const [open, setOpen] = useState<boolean>(false);
 
-  const selectVaultFolder = async () => {
+  const handleSelectStackFolder = async () => {
     try {
       const folder = await tauriDialog.open({
         multiple: false,
         directory: true,
       });
-      if (folder) {
-        setVaultPath(folder);
-        await store.addItem(storeKeys.path, folder);
-      }
+      if (folder) setStackPath(folder);
+    } catch {
+      //
+    }
+  };
+
+  const handleSave = async () => {
+    if (!stackPath || !stackName) return;
+
+    try {
+      await fs.mkdir(`${stackPath}/${stackName}`, {
+        baseDir: fs.BaseDirectory.AppLocalData,
+      });
+      await store.addItem(storeKeys.path, stackPath);
+      await store.addItem(storeKeys.stackName, stackName);
+
+      setOpen(false);
     } catch {
       //
     }
   };
 
   const loadSavedVault = async () => {
-    const savedVaultPath = await store.getItem(storeKeys.path);
+    const savedStackPath = await store.getItem(storeKeys.path);
+    const savedStackName = await store.getItem(storeKeys.stackName);
 
-    if (savedVaultPath) {
-      setVaultPath(savedVaultPath);
-    }
+    if (savedStackPath) setStackPath(savedStackPath);
+    if (savedStackName) setStackName(savedStackName);
   };
 
   useEffect(() => {
@@ -36,29 +55,36 @@ const Settings = () => {
 
   return (
     <Modal
+      open={open}
+      onOpenChange={setOpen}
+      title="Settings"
       modalTrigger={
         <button type="button">
           <SettingsIcon className="size-3" />
         </button>
       }
     >
-      <div className="space-y-6 jetbrains-mono">
-        <p className="text-sm">Settings</p>
+      <div className="space-y-6">
+        <Input
+          id="stack"
+          label="Stack name"
+          subText="Choose a name for your stack"
+          value={stackName}
+          onChange={(e) => setStackName(e?.target?.value)}
+        />
 
-        <div>
-          <div className="space-y-2">
-            <p className="text-xs whitespace-nowrap">Select folder:</p>
-            <button
-              type="button"
-              onClick={selectVaultFolder}
-              className="bg-background-secondary px-3 py-1 text-xs font-mono rounded border border-border hover:bg-background truncate"
-            >
-              {vaultPath || "Select"}
-            </button>
-          </div>
-          <small className="text-xxs text-gray-300">
-            Select where all your entries are stored.
-          </small>
+        <div className="flex flex-col gap-y-1">
+          <Text medium>Location</Text>
+          <Button.Secondary onClick={handleSelectStackFolder}>
+            {stackPath || "Choose a location"}
+          </Button.Secondary>
+          <Text xs className="text-secondary">
+            Pick a place to store this stack
+          </Text>
+        </div>
+
+        <div className="flex items-center justify-end">
+          <Button.Primary onClick={handleSave}>Save</Button.Primary>
         </div>
       </div>
     </Modal>
