@@ -16,6 +16,16 @@
     {
       "identifier": "fs:allow-mkdir",
       "allow": ["**"]
+    },
+    "fs:write-all",
+    {
+      "identifier": "fs:write-all",
+      "allow": ["**"]
+    },
+    "fs:allow-exists",
+    {
+      "identifier": "fs:allow-exists",
+      "allow": ["**"]
     }
   ]
 }
