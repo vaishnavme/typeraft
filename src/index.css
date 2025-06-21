@@ -99,6 +99,7 @@ html {
   border-radius: 16px;
   border: 6px solid var(--border);
   line-height: 1.8rem;
+  overflow: hidden;
 }
 
 #layout {
