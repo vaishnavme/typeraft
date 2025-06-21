@@ -42,6 +42,8 @@ export const storeKeys = {
   font: "font",
   path: "path",
   stackName: "stackName",
+  currentStackPath: "currentStackPath",
+  lookupPath: "lookupPath",
 };
 
 const store = new StoreManager();
