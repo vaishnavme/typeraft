@@ -84,7 +84,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease,
+    border-color 0.2s ease, box-shadow 0.2s ease, outline-color 0.2s ease,
+    fill 0.2s ease, stroke 0.2s ease;
 }
 
 html,
@@ -462,6 +464,13 @@ blockquote {
 
 .accent {
   color: var(--accent);
+}
+
+.clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .clamp-2 {

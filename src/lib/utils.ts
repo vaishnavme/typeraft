@@ -24,3 +24,8 @@ export const htmlToMarkdown = (htmlString: string) => {
   const md = converter.makeMarkdown(htmlString);
   return md;
 };
+
+export const markdownToHTML = (md: string) => {
+  const html = converter.makeHtml(md);
+  return html;
+};
