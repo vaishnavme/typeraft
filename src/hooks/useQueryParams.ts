@@ -42,6 +42,24 @@ class QueryParamsManager {
     };
   }
 
+  setParams(newParams: QueryParams) {
+    const params = new URLSearchParams();
+
+    Object.entries(newParams).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        params.set(key, value);
+      }
+    });
+
+    const newSearch = params.toString();
+    const newUrl = `${window.location.pathname}${
+      newSearch ? `?${newSearch}` : ""
+    }`;
+
+    window.history.replaceState({}, "", newUrl);
+    this.updateFromURL();
+  }
+
   updateParams(newParams: Partial<QueryParams>) {
     const params = new URLSearchParams(window.location.search);
 
@@ -76,13 +94,17 @@ class QueryParamsManager {
 const queryParamsManager = new QueryParamsManager();
 
 const useQueryParams = () => {
-  const [query, setQuery] = useState<QueryParams>(() =>
+  const [params, setParams] = useState<QueryParams>(() =>
     queryParamsManager.getCurrentParams()
   );
 
   useEffect(() => {
-    const unsubscribe = queryParamsManager.subscribe(setQuery);
+    const unsubscribe = queryParamsManager.subscribe(setParams);
     return unsubscribe;
+  }, []);
+
+  const setQuery = useCallback((newParams: QueryParams) => {
+    queryParamsManager.setParams(newParams);
   }, []);
 
   const updateQuery = useCallback((newParams: Partial<QueryParams>) => {
@@ -94,8 +116,9 @@ const useQueryParams = () => {
   }, []);
 
   return {
-    query,
-    setQuery: updateQuery,
+    query: params,
+    setQuery,
+    updateQuery,
     resetQuery,
   };
 };
