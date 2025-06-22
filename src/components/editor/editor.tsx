@@ -62,7 +62,7 @@ const Editor = forwardRef((props: EditorProps, ref) => {
       setContent: (content: string) => {
         editor?.commands?.setContent(content);
       },
-      clearContet: () => {
+      clearContent: () => {
         editor?.commands?.clearContent();
       },
     }),
