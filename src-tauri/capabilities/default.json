@@ -13,9 +13,12 @@
     "fs:default",
     "dialog:default",
     "fs:allow-mkdir",
-    {
-      "identifier": "fs:allow-mkdir",
-      "allow": ["**"]
-    }
+    "fs:allow-exists",
+    "fs:write-all",
+    "fs:read-all",
+    { "identifier": "fs:allow-mkdir", "allow": ["**"] },
+    { "identifier": "fs:write-all", "allow": ["**"] },
+    { "identifier": "fs:allow-exists", "allow": ["**"] },
+    { "identifier": "fs:read-all", "allow": ["**"] }
   ]
 }

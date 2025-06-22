@@ -1,3 +1,4 @@
+import { useImperativeHandle, forwardRef } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
@@ -7,7 +8,7 @@ import { getRandomNumber } from "../../lib/utils";
 
 interface EditorProps {
   content?: string;
-  onChange: (content: string) => void;
+  onChange: ({ html, text }: { html: string; text: string }) => void;
 }
 
 const allPlaceholders = [
@@ -19,7 +20,7 @@ const allPlaceholders = [
 const getPlaceholder = () =>
   allPlaceholders[getRandomNumber(0, allPlaceholders.length - 1)];
 
-const Editor = (props: EditorProps) => {
+const Editor = forwardRef((props: EditorProps, ref) => {
   const { content, onChange } = props;
 
   const { font } = useTheme();
@@ -40,7 +41,10 @@ const Editor = (props: EditorProps) => {
         }),
       ],
       onUpdate: ({ editor: editorInstance }) => {
-        onChange(editorInstance.getHTML());
+        const html = editorInstance.getHTML();
+        const text = editorInstance.getText();
+
+        onChange({ html, text });
       },
 
       editorProps: {
@@ -52,7 +56,20 @@ const Editor = (props: EditorProps) => {
     []
   );
 
+  useImperativeHandle(
+    ref,
+    () => ({
+      setContent: (content: string) => {
+        editor?.commands?.setContent(content);
+      },
+      clearContent: () => {
+        editor?.commands?.clearContent();
+      },
+    }),
+    []
+  );
+
   return <EditorContent editor={editor} />;
-};
+});
 
 export default Editor;

@@ -8,6 +8,7 @@ import Button from "../ui/button";
 import SidePanel from "./side-panel";
 import ToggleFullScreen from "./toggle-fullscreen";
 import Settings from "./settings";
+import useQueryParams from "../../hooks/useQueryParams";
 
 interface LayoutProps {
   children: ReactNode;
@@ -15,6 +16,8 @@ interface LayoutProps {
 
 const Layout = (props: LayoutProps) => {
   const { children } = props;
+
+  const { setQuery } = useQueryParams();
 
   const { setFont, setTheme } = useTheme();
   const [showDrawer, setShowDrawer] = useState<boolean>(false);
@@ -54,10 +57,15 @@ const Layout = (props: LayoutProps) => {
             </div>
 
             <div className="flex items-center gap-x-2">
+              <Button.MonoButton onClick={() => setQuery({ entry: "new" })}>
+                new entry
+              </Button.MonoButton>
+              •
               <Button.MonoButton onClick={() => setShowDrawer(true)}>
                 ← entries
               </Button.MonoButton>
-              <ToggleFullScreen />
+              •
+              <ToggleFullScreen />•
               <Button.MonoButton onClick={() => getCurrentWindow().close()}>
                 close
               </Button.MonoButton>

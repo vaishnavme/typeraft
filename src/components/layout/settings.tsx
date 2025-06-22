@@ -1,12 +1,14 @@
+import { useEffect, useState } from "react";
 import * as tauriDialog from "@tauri-apps/plugin-dialog";
 import * as fs from "@tauri-apps/plugin-fs";
+import { toast } from "sonner";
 import { SettingsIcon } from "../icons";
 import Modal from "../ui/modal";
-import { useEffect, useState } from "react";
 import store, { storeKeys } from "../../lib/store";
 import Text from "../ui/text";
 import Button from "../ui/button";
 import Input from "../ui/input";
+import { lookup_cache } from "../../lib/constants";
 
 const Settings = () => {
   const [stackName, setStackName] = useState<string>("");
@@ -28,12 +30,23 @@ const Settings = () => {
   const handleSave = async () => {
     if (!stackPath || !stackName) return;
 
+    const currentPath = `${stackPath}/${stackName}`;
+    const lookupCachePath = `${currentPath}/${lookup_cache}`;
     try {
-      await fs.mkdir(`${stackPath}/${stackName}`, {
-        baseDir: fs.BaseDirectory.AppLocalData,
-      });
+      const isFileExists = await fs.exists(currentPath);
+      if (isFileExists) {
+        toast.message(
+          "Stack folder already exists. Please use different Stack folder."
+        );
+        return;
+      }
+
+      await fs.mkdir(currentPath);
+      await fs.writeTextFile(lookupCachePath, JSON.stringify([], null, 2));
       await store.addItem(storeKeys.path, stackPath);
       await store.addItem(storeKeys.stackName, stackName);
+      await store.addItem(storeKeys.currentStackPath, currentPath);
+      await store.addItem(storeKeys.lookupPath, lookupCachePath);
 
       setOpen(false);
     } catch {
