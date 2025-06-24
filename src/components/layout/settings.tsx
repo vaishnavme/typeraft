@@ -13,7 +13,7 @@ import { lookup_cache } from "../../lib/constants";
 const Settings = () => {
   const [stackName, setStackName] = useState<string>("");
   const [stackPath, setStackPath] = useState<string>("");
-  const [open, setOpen] = useState<boolean>(false);
+  const [openSetting, setOpenSetting] = useState<boolean>(false);
 
   const handleSelectStackFolder = async () => {
     try {
@@ -40,15 +40,13 @@ const Settings = () => {
         );
         return;
       }
-
       await fs.mkdir(currentPath);
       await fs.writeTextFile(lookupCachePath, JSON.stringify([], null, 2));
       await store.addItem(storeKeys.path, stackPath);
       await store.addItem(storeKeys.stackName, stackName);
       await store.addItem(storeKeys.currentStackPath, currentPath);
       await store.addItem(storeKeys.lookupPath, lookupCachePath);
-
-      setOpen(false);
+      setOpenSetting(false);
     } catch {
       //
     }
@@ -57,6 +55,11 @@ const Settings = () => {
   const loadSavedVault = async () => {
     const savedStackPath = await store.getItem(storeKeys.path);
     const savedStackName = await store.getItem(storeKeys.stackName);
+
+    if (!savedStackPath || !savedStackName) {
+      setOpenSetting(true);
+      return;
+    }
 
     if (savedStackPath) setStackPath(savedStackPath);
     if (savedStackName) setStackName(savedStackName);
@@ -68,8 +71,8 @@ const Settings = () => {
 
   return (
     <Modal
-      open={open}
-      onOpenChange={setOpen}
+      open={openSetting}
+      onOpenChange={setOpenSetting}
       title="Settings"
       modalTrigger={
         <button type="button">
@@ -96,7 +99,7 @@ const Settings = () => {
           </Text>
         </div>
 
-        <div className="flex items-center justify-end">
+        <div className="flex items-center justify-between">
           <Button.Primary onClick={handleSave}>Save</Button.Primary>
         </div>
       </div>

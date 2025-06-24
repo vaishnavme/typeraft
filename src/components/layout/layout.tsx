@@ -1,9 +1,7 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import FontToggle from "./font-toggle";
 import ThemeToggle from "./theme-toggle";
-import store, { storeKeys } from "../../lib/store";
-import { useTheme } from "../../theme/theme-provider";
 import Button from "../ui/button";
 import SidePanel from "./side-panel";
 import ToggleFullScreen from "./toggle-fullscreen";
@@ -18,26 +16,7 @@ const Layout = (props: LayoutProps) => {
   const { children } = props;
 
   const { setQuery } = useQueryParams();
-
-  const { setFont, setTheme } = useTheme();
   const [showDrawer, setShowDrawer] = useState<boolean>(false);
-
-  const loadSavedConfig = async () => {
-    try {
-      const [configTheme, configFont] = await Promise.all([
-        store.getItem(storeKeys.theme),
-        store.getItem(storeKeys.font),
-      ]);
-      if (configFont) setFont(configFont);
-      if (configTheme) setTheme(configTheme);
-    } catch {
-      //
-    }
-  };
-
-  useEffect(() => {
-    loadSavedConfig();
-  }, []);
 
   return (
     <div

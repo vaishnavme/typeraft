@@ -16,9 +16,11 @@
     "fs:allow-exists",
     "fs:write-all",
     "fs:read-all",
+    "fs:allow-write-text-file",
     { "identifier": "fs:allow-mkdir", "allow": ["**"] },
     { "identifier": "fs:write-all", "allow": ["**"] },
     { "identifier": "fs:allow-exists", "allow": ["**"] },
-    { "identifier": "fs:read-all", "allow": ["**"] }
+    { "identifier": "fs:read-all", "allow": ["**"] },
+    { "identifier": "fs:allow-write-text-file", "allow": ["**"] }
   ]
 }

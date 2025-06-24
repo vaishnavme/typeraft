@@ -1,4 +1,10 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
 import store, { storeKeys } from "../lib/store";
 
 export type Theme =
@@ -61,6 +67,23 @@ export const ThemeProvider = (props: ThemeProviderProps) => {
     setAppFont(nextFont);
     store.addItem(storeKeys.font, nextFont);
   };
+
+  const loadSavedConfig = async () => {
+    try {
+      const [configTheme, configFont] = await Promise.all([
+        store.getItem(storeKeys.theme),
+        store.getItem(storeKeys.font),
+      ]);
+      if (configFont) setFont(configFont);
+      if (configTheme) setTheme(configTheme);
+    } catch {
+      //
+    }
+  };
+
+  useEffect(() => {
+    loadSavedConfig();
+  }, []);
 
   return (
     <ThemeContext.Provider
