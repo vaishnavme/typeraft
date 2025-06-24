@@ -99,7 +99,7 @@ const Settings = () => {
           </Text>
         </div>
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-end">
           <Button.Primary onClick={handleSave}>Save</Button.Primary>
         </div>
       </div>

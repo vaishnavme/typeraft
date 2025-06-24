@@ -31,7 +31,7 @@ const SidePanel = (props: SidePanelProps) => {
 
   useEffect(() => {
     loadAllEntries();
-  }, []);
+  }, [showDrawer]);
 
   return (
     <aside
