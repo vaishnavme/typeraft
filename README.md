@@ -2,10 +2,10 @@
 
 ### Features
 
+- Markdown support
 - Clean, minimal interface designed to eliminate distractions
 - 5-6 beautiful themes to customize your writing environment
 - 3 carefully selected fonts optimized for readability and comfort
-- Cross-platform support (Windows, macOS, Linux)
 - Fast, responsive performance powered by Tauri + React
 
 ![Screenshot-1 of a Typeraft.](https://raw.githubusercontent.com/vaishnavme/typeraft/refs/heads/main/public/typeraft-base.png)
