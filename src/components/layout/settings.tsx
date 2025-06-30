@@ -69,11 +69,24 @@ const Settings = () => {
     loadSavedVault();
   }, []);
 
+  const hasSomeSettings = !!stackName?.length && !!stackPath?.length;
+
   return (
     <Modal
       open={openSetting}
       onOpenChange={setOpenSetting}
       title="Settings"
+      onEscapeKeyDown={(event) => {
+        if (!hasSomeSettings) {
+          event.preventDefault();
+        }
+      }}
+      onInteractOutside={(event) => {
+        if (!hasSomeSettings) {
+          event.preventDefault();
+        }
+      }}
+      hideCloseButton={!hasSomeSettings}
       modalTrigger={
         <button type="button">
           <SettingsIcon className="size-3" />

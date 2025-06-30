@@ -2,7 +2,7 @@ import { load, Store } from "@tauri-apps/plugin-store";
 
 // StoreManager class to handle store operations
 class StoreManager {
-  private storePath = "config.json";
+  private storePath = "app-config.json";
   private store!: Store;
 
   constructor() {

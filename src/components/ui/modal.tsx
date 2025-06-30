@@ -8,11 +8,23 @@ interface ModalProps {
   children: ReactNode;
   title: string;
   open: boolean;
+  hideCloseButton?: boolean;
   onOpenChange: (status: boolean) => void;
+  onEscapeKeyDown?: (event: KeyboardEvent) => void;
+  onInteractOutside?: (event: Event) => void;
 }
 
 const Modal = (props: ModalProps) => {
-  const { modalTrigger, open, title, children, onOpenChange } = props;
+  const {
+    modalTrigger,
+    open,
+    title,
+    children,
+    onOpenChange,
+    onEscapeKeyDown,
+    onInteractOutside,
+    hideCloseButton,
+  } = props;
 
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
@@ -21,7 +33,11 @@ const Modal = (props: ModalProps) => {
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/50 rounded-2xl" />
-        <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background w-96 p-4 z-50 rounded-2xl border border-border">
+        <Dialog.Content
+          onEscapeKeyDown={onEscapeKeyDown}
+          onInteractOutside={onInteractOutside}
+          className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background w-96 p-4 z-50 rounded-2xl border border-border"
+        >
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               {title ? (
@@ -31,12 +47,14 @@ const Modal = (props: ModalProps) => {
                   </Text>
                 </Dialog.DialogTitle>
               ) : null}
-              <Dialog.Close
-                onClick={() => onOpenChange(false)}
-                className="bg-background hover:bg-border p-1.5 rounded-lg"
-              >
-                <CancelIcon className="size-4" />
-              </Dialog.Close>
+              {hideCloseButton ? null : (
+                <Dialog.Close
+                  onClick={() => onOpenChange(false)}
+                  className="bg-background hover:bg-border p-1.5 rounded-lg"
+                >
+                  <CancelIcon className="size-4" />
+                </Dialog.Close>
+              )}
             </div>
             {children}
           </div>
