@@ -16,6 +16,6 @@
 
 ### Upcoming Features
 
-- [] Export content as HTML, PDF and Image
-- [] Image support
-- [] Directly import web page
+- [ ] Export content as HTML, PDF and Image
+- [ ] Image support
+- [ ] Directly import web page
