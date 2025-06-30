@@ -8,6 +8,10 @@
 - Cross-platform support (Windows, macOS, Linux)
 - Fast, responsive performance powered by Tauri + React
 
+![Screenshot-1 of a Typeraft.](https://raw.githubusercontent.com/vaishnavme/typeraft/refs/heads/main/public/typeraft-base.png)
+
+![Screenshot-2 of a Typeraft with App config options.](https://raw.githubusercontent.com/vaishnavme/typeraft/refs/heads/main/public/typeraft-base2.png)
+
 ### Tech Stack:
 
 - Tauri (Rust backend)
@@ -16,6 +20,7 @@
 
 ### Upcoming Features
 
+- [ ] Delete notes
 - [ ] Export content as HTML, PDF and Image
 - [ ] Image support
 - [ ] Directly import web page
