@@ -1,7 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap");
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-geist: "Geist", sans-serif;
+  --font-ibm-plex: "IBM Plex Serif", serif;
+  --font-geist-mono: "Geist Mono", monospace;
+}
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -216,41 +224,6 @@
   --sidebar-ring: oklch(0.58 0.18 280);
 }
 
-/* Rose Theme */
-.rose {
-  --background: oklch(0.99 0.01 330);
-  --foreground: oklch(0.28 0.02 330);
-  --card: oklch(0.99 0.01 330);
-  --card-foreground: oklch(0.28 0.02 330);
-  --popover: oklch(0.99 0.01 330);
-  --popover-foreground: oklch(0.28 0.02 330);
-  --primary: oklch(0.68 0.22 320);
-  --primary-foreground: oklch(0.98 0.01 330);
-  --secondary: oklch(0.97 0.01 330);
-  --secondary-foreground: oklch(0.38 0.02 330);
-  --muted: oklch(0.97 0.01 330);
-  --muted-foreground: oklch(0.48 0.02 330);
-  --accent: oklch(0.68 0.22 320);
-  --accent-foreground: oklch(0.98 0.01 330);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.92 0.01 330);
-  --input: oklch(0.92 0.01 330);
-  --ring: oklch(0.68 0.22 320);
-  --chart-1: oklch(0.68 0.22 320);
-  --chart-2: oklch(0.72 0.18 340);
-  --chart-3: oklch(0.65 0.15 300);
-  --chart-4: oklch(0.58 0.12 350);
-  --chart-5: oklch(0.75 0.2 310);
-  --sidebar: oklch(0.98 0.01 330);
-  --sidebar-foreground: oklch(0.28 0.02 330);
-  --sidebar-primary: oklch(0.68 0.22 320);
-  --sidebar-primary-foreground: oklch(0.98 0.01 330);
-  --sidebar-accent: oklch(0.97 0.01 330);
-  --sidebar-accent-foreground: oklch(0.38 0.02 330);
-  --sidebar-border: oklch(0.92 0.01 330);
-  --sidebar-ring: oklch(0.68 0.22 320);
-}
-
 /* Dark Theme */
 .dark {
   --background: oklch(0.145 0 0);
@@ -304,3 +277,51 @@ html {
   );
   height: 100%;
 }
+
+.default-theme-text {
+  color: oklch(0.97 0 0);
+}
+.dark-theme-text {
+  color: oklch(0.269 0 0);
+}
+.cream-theme-text {
+  color: oklch(0.35 0.08 30);
+}
+.mist-theme-text {
+  color: oklch(0.62 0.18 255);
+}
+.sage-theme-text {
+  color: oklch(0.52 0.12 160);
+}
+.lavender-theme-text {
+  color: oklch(0.58 0.18 280);
+}
+
+.default-theme-bg {
+  background-color: oklch(0.97 0 0);
+}
+.dark-theme-bg {
+  background-color: oklch(0.269 0 0);
+}
+.cream-theme-bg {
+  background-color: oklch(0.35 0.08 30);
+}
+.mist-theme-bg {
+  background-color: oklch(0.62 0.18 255);
+}
+.sage-theme-bg {
+  background-color: oklch(0.52 0.12 160);
+}
+.lavender-theme-bg {
+  background-color: oklch(0.58 0.18 280);
+}
+
+/*   
+  --theme-default: oklch(0.97 0 0);
+  --theme-dark: oklch(0.269 0 0);
+  --theme-cream: oklch(0.35 0.08 30);
+  --theme-mist: oklch(0.62 0.18 255);
+  --theme-sage: oklch(0.52 0.12 160);
+  --theme-lavender: oklch(0.58 0.18 280);
+  --theme-rose: oklch(0.68 0.22 320);
+ */

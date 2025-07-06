@@ -9,7 +9,7 @@ interface LayoutProps {
 const Layout = (props: LayoutProps) => {
   const { children } = props;
   return (
-    <div className="bg-background rounded w-full h-[calc(100vh-12px)] relative overflow-hidden">
+    <div className="font-geist bg-background rounded w-full h-[calc(100vh-12px)] relative overflow-hidden">
       <Titlebar />
       {children}
       <Footer />
