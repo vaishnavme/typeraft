@@ -34,11 +34,6 @@ const THEMES_OPTIONS: ThemeOptionType[] = [
     color: "lavender-theme-bg",
   },
   {
-    label: "Rose",
-    theme: "rose",
-    color: "rose-theme-bg",
-  },
-  {
     label: "Dark",
     theme: "dark",
     color: "dark-theme-bg",

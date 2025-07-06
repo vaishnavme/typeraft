@@ -1,13 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-export type Theme =
-  | "default"
-  | "dark"
-  | "cream"
-  | "mist"
-  | "sage"
-  | "lavender"
-  | "rose";
+export type Theme = "default" | "dark" | "cream" | "mist" | "sage" | "lavender";
 
 type ThemeProviderProps = {
   children: React.ReactNode;

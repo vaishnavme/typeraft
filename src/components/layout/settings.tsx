@@ -1,3 +1,5 @@
+import { useState } from "react";
+import * as tauriDialog from "@tauri-apps/plugin-dialog";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -13,6 +15,23 @@ import ThemePalette from "./theme-palette";
 import Typeface from "./typeface";
 
 const Settings = () => {
+  const [stackName, setStackName] = useState<string>("");
+  const [location, setLocation] = useState<string>("");
+
+  const handleSelectLocation = async () => {
+    try {
+      const folder = await tauriDialog.open({
+        multiple: false,
+        directory: true,
+      });
+      if (folder) {
+        setLocation(folder);
+      }
+    } catch {
+      //
+    }
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -35,17 +54,25 @@ const Settings = () => {
         <div className="flex flex-col gap-y-6">
           <div className="flex flex-col gap-y-6">
             <Input
-              placeholder="eg. Personal, Thoughts"
               label="Stack name"
+              placeholder="eg. Personal, Thoughts"
               subText="Pick a name for your stack"
+              value={stackName}
+              onChange={(e) => setStackName(e.target.value)}
             />
             <div className="flex flex-col gap-y-1">
               <Text size="xs" weight="medium">
                 Location
               </Text>
-              <Button variant="outline" className="w-full">
-                Choose a location
-              </Button>
+              <div>
+                <Button
+                  variant="outline"
+                  className="w-full text-left justify-start"
+                  onClick={handleSelectLocation}
+                >
+                  {location?.slice(0, 45) || "Choose a location"}
+                </Button>
+              </div>
               <Text size="xs" className="text-muted-foreground">
                 Pick a place to store stack
               </Text>
