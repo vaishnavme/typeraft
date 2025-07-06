@@ -1,10 +1,13 @@
 import Layout from "./components/layout/layout";
+import ThemeProvider from "./provider/theme-provider";
 
 const App = () => {
   return (
-    <Layout>
-      <h1>Hello</h1>
-    </Layout>
+    <ThemeProvider>
+      <Layout>
+        <h1>Hello</h1>
+      </Layout>
+    </ThemeProvider>
   );
 };
 
