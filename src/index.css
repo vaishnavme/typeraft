@@ -110,11 +110,21 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+html {
+  color: var(--color-foreground);
+  border-radius: var(--radius-md);
+  padding: 6px;
+  backdrop-filter: blur(10px);
+  background-color: color-mix(
+    in oklab,
+    var(--color-background) 60%,
+    transparent
+  );
+  height: 100%;
 }
