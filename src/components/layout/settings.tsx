@@ -9,6 +9,8 @@ import {
 } from "../ui/dialog";
 import { Input } from "../ui/input";
 import Text from "../ui/text";
+import ThemePalette from "./theme-palette";
+import Typeface from "./typeface";
 
 const Settings = () => {
   return (
@@ -48,6 +50,10 @@ const Settings = () => {
                 Pick a place to store stack
               </Text>
             </div>
+
+            <ThemePalette />
+
+            <Typeface />
           </div>
 
           <div className="flex items-center justify-end">
