@@ -1,4 +1,3 @@
-import { PaletteIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { useTheme, type Theme } from "../../provider/theme-provider";
 import {
@@ -16,12 +15,12 @@ const ThemePalette = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="size-7 rounded">
-          <PaletteIcon />
+        <Button variant="outline" size="sm">
+          Theme Pallet
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
+        <DropdownMenuLabel>Theme Pallet</DropdownMenuLabel>
         <DropdownMenuRadioGroup
           value={theme}
           onValueChange={(appTheme) => setTheme(appTheme as Theme)}
