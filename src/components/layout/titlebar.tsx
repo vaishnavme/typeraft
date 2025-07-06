@@ -41,7 +41,10 @@ const Titlebar = () => {
   }, []);
 
   return (
-    <div data-tauri-drag-region className="w-full h-8 flex items-center px-2">
+    <header
+      data-tauri-drag-region
+      className="w-full h-8 flex items-center px-2"
+    >
       <div className="flex items-center gap-x-2">
         <WindowControlButton
           aria-label="Close Window"
@@ -59,7 +62,7 @@ const Titlebar = () => {
           onClick={toggleWindowSize}
         />
       </div>
-    </div>
+    </header>
   );
 };
 
