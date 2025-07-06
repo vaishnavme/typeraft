@@ -1,6 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import store, { storeKeys } from "../lib/store";
 
 export type Theme = "default" | "dark" | "cream" | "mist" | "sage" | "lavender";
+
+export type Font = "geist" | "ibm-plex" | "geist-mono";
 
 type ThemeProviderProps = {
   children: React.ReactNode;
@@ -10,27 +13,25 @@ type ThemeProviderProps = {
 
 type ThemeProviderState = {
   theme: Theme;
+  font: Font;
+  setFont: (font: Font) => void;
   setTheme: (theme: Theme) => void;
 };
 
 const initialState: ThemeProviderState = {
   theme: "default",
+  font: "geist",
+  setFont: () => null,
   setTheme: () => null,
 };
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 
 const ThemeProvider = (props: ThemeProviderProps) => {
-  const {
-    children,
-    defaultTheme = "default",
-    storageKey = "vite-ui-theme",
-    ...rest
-  } = props;
+  const { children, ...rest } = props;
 
-  const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
-  );
+  const [appTheme, setAppTheme] = useState<Theme>(store.theme || "default");
+  const [appFont, setAppFont] = useState<Font>(store.font || "geist");
 
   useEffect(() => {
     const root = window.document.documentElement;
@@ -47,17 +48,40 @@ const ThemeProvider = (props: ThemeProviderProps) => {
     );
 
     // Apply theme (only if not default)
-    if (theme !== "default") {
-      root.classList.add(theme);
+    if (appTheme !== "default") {
+      root.classList.add(appTheme);
     }
-  }, [theme]);
+  }, [appTheme]);
+
+  const setTheme = async (nextTheme: Theme) => {
+    setAppTheme(nextTheme);
+    await store.setTheme(nextTheme);
+  };
+
+  const setFont = async (nextFont: Font) => {
+    setAppFont(nextFont);
+    await store.setFont(nextFont);
+  };
+
+  const loadSavedAppTheme = async () => {
+    const [savedTheme, savedFont] = await Promise.all([
+      store.getItem(storeKeys.theme),
+      store.getItem(storeKeys.font),
+    ]);
+
+    setAppTheme(savedTheme || "default");
+    setAppFont(savedFont || "geist");
+  };
+
+  useEffect(() => {
+    loadSavedAppTheme();
+  }, []);
 
   const value = {
-    theme,
-    setTheme: (newTheme: Theme) => {
-      localStorage.setItem(storageKey, newTheme);
-      setTheme(newTheme);
-    },
+    theme: appTheme,
+    font: appFont,
+    setFont,
+    setTheme,
   };
 
   return (

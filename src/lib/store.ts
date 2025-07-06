@@ -1,5 +1,6 @@
 import { load, Store } from "@tauri-apps/plugin-store";
 import { lookup_cache } from "./constants";
+import type { Font, Theme } from "../provider/theme-provider";
 
 class StoreManager {
   private storePath = "app-config.json";
@@ -8,6 +9,8 @@ class StoreManager {
   stackName: string | undefined;
   location: string | undefined;
   lookupPath: string | undefined;
+  theme: Theme | undefined;
+  font: Font | undefined;
 
   constructor() {
     (async () => {
@@ -29,13 +32,17 @@ class StoreManager {
   }
 
   async preloadStore() {
-    const [locationPath, stackName] = await Promise.all([
+    const [locationPath, stackName, theme, font] = await Promise.all([
       this.getItem(storeKeys.location),
       this.getItem(storeKeys.stackName),
+      this.getItem(storeKeys.theme),
+      this.getItem(storeKeys.font),
     ]);
 
     this.location = locationPath;
     this.stackName = stackName;
+    this.theme = theme;
+    this.font = font;
   }
 
   async addItem(key: string, value: string) {
@@ -71,6 +78,18 @@ class StoreManager {
     if (!value) return;
     this.addItem(storeKeys.stackName, value);
     this.stackName = value;
+  }
+
+  async setTheme(value: Theme) {
+    if (!value) return;
+    this.addItem(storeKeys.theme, value);
+    this.theme = value;
+  }
+
+  async setFont(value: Font) {
+    if (!value) return;
+    this.addItem(storeKeys.font, value);
+    this.font = value;
   }
 }
 

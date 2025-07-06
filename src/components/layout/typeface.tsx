@@ -1,3 +1,4 @@
+import { useTheme, type Font } from "../../provider/theme-provider";
 import {
   Select,
   SelectTrigger,
@@ -30,12 +31,17 @@ const TYPEFACE_OPTIONS: TypefaceType[] = [
 ];
 
 const Typeface = () => {
+  const { font, setFont } = useTheme();
+
   return (
     <div className="flex flex-col gap-y-1">
       <Text size="xs" weight="medium">
         Select Typeface
       </Text>
-      <Select>
+      <Select
+        value={font}
+        onValueChange={(nextFont: Font) => setFont(nextFont)}
+      >
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Select a Typeface" />
         </SelectTrigger>

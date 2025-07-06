@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as tauriDialog from "@tauri-apps/plugin-dialog";
+import * as fs from "@tauri-apps/plugin-fs";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -13,10 +14,39 @@ import { Input } from "../ui/input";
 import Text from "../ui/text";
 import ThemePalette from "./theme-palette";
 import Typeface from "./typeface";
+import store from "../../lib/store";
+import { lookup_cache } from "../../lib/constants";
+import { useTheme } from "../../provider/theme-provider";
 
 const Settings = () => {
-  const [stackName, setStackName] = useState<string>("");
-  const [location, setLocation] = useState<string>("");
+  const { theme, font } = useTheme();
+
+  const [stackName, setStackName] = useState<string>(store.stackName || "");
+  const [location, setLocation] = useState<string>(store.location || "");
+  const [openSetting, setOpenSetting] = useState<boolean>(false);
+
+  const saveConfig = async () => {
+    if (!stackName || !location) return;
+
+    try {
+      const stackLocation = `${location}/${stackName}`;
+      const lookupfile = `${stackLocation}/${lookup_cache}`;
+      const isFileExist = await fs.exists(stackLocation);
+      if (!isFileExist) {
+        await fs.mkdir(stackLocation);
+        await fs.writeTextFile(lookupfile, JSON.stringify([], null, 2));
+      }
+
+      await store.setLocation(location);
+      await store.setStackName(stackName);
+      await store.setTheme(theme);
+      await store.setFont(font);
+
+      setOpenSetting(false);
+    } catch {
+      //
+    }
+  };
 
   const handleSelectLocation = async () => {
     try {
@@ -32,12 +62,19 @@ const Settings = () => {
     }
   };
 
+  useEffect(() => {
+    if (openSetting) {
+      setLocation(store.location || "");
+      setStackName(store.stackName || "");
+    }
+  }, [openSetting]);
+
   return (
-    <Dialog>
+    <Dialog open={openSetting} onOpenChange={setOpenSetting}>
       <DialogTrigger asChild>
         <button
           type="button"
-          className="text-[10px] px-2 py-0.5 font-mono font-medium hover:text-foreground/70"
+          className="text-[10px] px-2 py-0.5 font-geist-mono font-medium hover:text-foreground/70"
         >
           Settings
         </button>
@@ -84,7 +121,9 @@ const Settings = () => {
           </div>
 
           <div className="flex items-center justify-end">
-            <Button size="sm">Create</Button>
+            <Button onClick={saveConfig} size="sm">
+              Create
+            </Button>
           </div>
         </div>
       </DialogContent>
