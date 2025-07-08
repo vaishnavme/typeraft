@@ -3,7 +3,7 @@ import { lookup_cache } from "./constants";
 import type { Font, Theme } from "../provider/theme-provider";
 
 class StoreManager {
-  private storePath = "app-config.json";
+  private storePath = "typeraft-config.json";
   private store!: Store;
 
   stackName: string | undefined;

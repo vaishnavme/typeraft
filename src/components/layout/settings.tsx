@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import * as tauriDialog from "@tauri-apps/plugin-dialog";
 import * as fs from "@tauri-apps/plugin-fs";
+import { toast } from "sonner";
 import { Button } from "../ui/button";
+import { SettingsIcon } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -17,7 +19,6 @@ import Typeface from "./typeface";
 import store from "../../lib/store";
 import { lookup_cache } from "../../lib/constants";
 import { useTheme } from "../../provider/theme-provider";
-import { SettingsIcon } from "lucide-react";
 
 const Settings = () => {
   const { theme, font } = useTheme();
@@ -25,6 +26,7 @@ const Settings = () => {
   const [stackName, setStackName] = useState<string>(store.stackName || "");
   const [location, setLocation] = useState<string>(store.location || "");
   const [openSetting, setOpenSetting] = useState<boolean>(false);
+  const [firstInit, setFirstInit] = useState<boolean>(false);
 
   const saveConfig = async () => {
     if (!stackName || !location) return;
@@ -44,8 +46,9 @@ const Settings = () => {
       await store.setFont(font);
 
       setOpenSetting(false);
-    } catch {
-      //
+      setFirstInit(false);
+    } catch (err) {
+      toast.error(`Could not save user config: ${err}`);
     }
   };
 
@@ -58,17 +61,24 @@ const Settings = () => {
       if (folder) {
         setLocation(folder);
       }
-    } catch {
-      //
+    } catch (err) {
+      toast.error(`Could not open folder selector: ${err}`);
     }
   };
 
-  useEffect(() => {
-    if (openSetting) {
-      setLocation(store.location || "");
-      setStackName(store.stackName || "");
+  const loadSavedConfig = async () => {
+    if (!store.config.location || !store.config.stackName) {
+      setOpenSetting(true);
+      setFirstInit(true);
+      return;
     }
-  }, [openSetting]);
+    setLocation(store.location || "");
+    setStackName(store.stackName || "");
+  };
+
+  useEffect(() => {
+    loadSavedConfig();
+  }, [store.config.location, store.config.stackName]);
 
   return (
     <Dialog open={openSetting} onOpenChange={setOpenSetting}>
@@ -81,8 +91,27 @@ const Settings = () => {
           <SettingsIcon />
         </Button>
       </DialogTrigger>
-      <DialogContent className="p-4 w-96" showCloseButton={false}>
-        <DialogHeader className="gap-y-1 mb-8">
+      <DialogContent
+        className="p-4 w-96"
+        showCloseButton={false}
+        overlayClassName={firstInit ? "bg-popover-foreground" : ""}
+        onEscapeKeyDown={(e) => {
+          if (firstInit) {
+            e.preventDefault();
+          }
+        }}
+        onInteractOutside={(e) => {
+          if (firstInit) {
+            e.preventDefault();
+          }
+        }}
+      >
+        <DialogHeader className="gap-y-0 mt-6 mb-2">
+          <img
+            src="/src/assets/Typeraft.png"
+            alt="Typeraft"
+            className="size-11 mx-auto"
+          />
           <DialogTitle className="text-base font-medium text-center">
             Typeraft
           </DialogTitle>
@@ -90,8 +119,8 @@ const Settings = () => {
             A distraction-free writing experience.
           </DialogDescription>
         </DialogHeader>
-        <div className="flex flex-col gap-y-6">
-          <div className="flex flex-col gap-y-6">
+        <div className="flex flex-col gap-y-4">
+          <div className="flex flex-col gap-y-4">
             <Input
               label="Stack name"
               placeholder="eg. Personal, Thoughts"

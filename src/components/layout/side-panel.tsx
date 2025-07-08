@@ -24,6 +24,8 @@ const SidePanel = () => {
   const loadAllEntries = async () => {
     if (!store.config.lookupPath) return;
     try {
+      const isFileExist = await fs.exists(store.config.lookupPath);
+      if (!isFileExist) return;
       const lookupJSON = await fs.readTextFile(store.config.lookupPath);
       const parsed = JSON.parse(lookupJSON);
       setAllEntries(parsed || []);
