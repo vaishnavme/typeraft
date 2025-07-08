@@ -17,6 +17,7 @@ import Typeface from "./typeface";
 import store from "../../lib/store";
 import { lookup_cache } from "../../lib/constants";
 import { useTheme } from "../../provider/theme-provider";
+import { SettingsIcon } from "lucide-react";
 
 const Settings = () => {
   const { theme, font } = useTheme();
@@ -72,12 +73,13 @@ const Settings = () => {
   return (
     <Dialog open={openSetting} onOpenChange={setOpenSetting}>
       <DialogTrigger asChild>
-        <button
-          type="button"
-          className="text-[10px] px-2 py-0.5 font-geist-mono font-medium hover:text-foreground/70"
+        <Button
+          variant="ghost"
+          size="icon"
+          className="size-6 flex items-center justify-center rounded hover:bg-background hover:text-primary"
         >
-          Settings
-        </button>
+          <SettingsIcon />
+        </Button>
       </DialogTrigger>
       <DialogContent className="p-4 w-96" showCloseButton={false}>
         <DialogHeader className="gap-y-1 mb-8">

@@ -18,15 +18,15 @@ type TypefaceType = {
 const TYPEFACE_OPTIONS: TypefaceType[] = [
   {
     label: "Geist",
-    font: "font-geist",
+    font: "geist",
   },
   {
     label: "Geist Mono",
-    font: "font-geist-mono",
+    font: "geist-mono",
   },
   {
     label: "IBM Plex Serif",
-    font: "font-ibm-plex",
+    font: "ibm-plex",
   },
 ];
 
@@ -40,7 +40,9 @@ const Typeface = () => {
       </Text>
       <Select
         value={font}
-        onValueChange={(nextFont: Font) => setFont(nextFont)}
+        onValueChange={(nextFont: Font) => {
+          setFont(nextFont);
+        }}
       >
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Select a Typeface" />

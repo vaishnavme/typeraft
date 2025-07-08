@@ -1,3 +1,4 @@
+import Writer from "./components/home/writer";
 import Layout from "./components/layout/layout";
 import ThemeProvider from "./provider/theme-provider";
 
@@ -5,7 +6,7 @@ const App = () => {
   return (
     <ThemeProvider>
       <Layout>
-        <h1>Hello</h1>
+        <Writer />
       </Layout>
     </ThemeProvider>
   );
