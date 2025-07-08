@@ -1,5 +1,7 @@
 import React, { useEffect, useState, type ButtonHTMLAttributes } from "react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
+import Settings from "./settings";
+import SidePanel from "./side-panel";
 
 interface WindowControlButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -20,7 +22,7 @@ const WindowControlButton: React.FC<WindowControlButtonProps> = (props) => {
 
 WindowControlButton.displayName = "WindowControlButton";
 
-const Titlebar = () => {
+const Header = () => {
   const appWindow = getCurrentWindow();
 
   const [isFullscreen, setIsFullScreen] = useState<boolean>(false);
@@ -43,7 +45,7 @@ const Titlebar = () => {
   return (
     <header
       data-tauri-drag-region
-      className="w-full h-8 flex items-center px-2"
+      className="fixed left-2 top-2 w-full h-8 flex items-center justify-between pl-2 pr-5"
     >
       <div className="flex items-center gap-x-2">
         <WindowControlButton
@@ -62,10 +64,14 @@ const Titlebar = () => {
           onClick={toggleWindowSize}
         />
       </div>
+      <div className="flex items-center gap-x-1">
+        <Settings />
+        <SidePanel />
+      </div>
     </header>
   );
 };
 
-Titlebar.displayName = "Titlebar";
+Header.displayName = "Header";
 
-export default Titlebar;
+export default Header;
