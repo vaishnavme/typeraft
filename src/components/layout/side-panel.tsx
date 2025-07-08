@@ -13,6 +13,7 @@ import {
 import type { LookupCacheType } from "../../lib/global.types";
 import store from "../../lib/store";
 import useQueryParams from "../../hooks/useQueryParams";
+import { toast } from "sonner";
 
 const SidePanel = () => {
   const { query, setQuery } = useQueryParams();
@@ -25,8 +26,8 @@ const SidePanel = () => {
       const lookupJSON = await fs.readTextFile(store.config.lookupPath);
       const parsed = JSON.parse(lookupJSON);
       setAllEntries(parsed || []);
-    } catch {
-      // @TODO: show error toast
+    } catch (err) {
+      toast.error(`Error occured while loading all stack entries: ${err}`);
     }
   };
 

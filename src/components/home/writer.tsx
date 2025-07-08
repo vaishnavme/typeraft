@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef } from "react";
 import * as fs from "@tauri-apps/plugin-fs";
+import { toast } from "sonner";
 import Editor, { type EditorRefType } from "../editor/editor";
 import { debounce, htmlToMarkdown, markdownToHTML } from "../../lib/utils";
 import useQueryParams from "../../hooks/useQueryParams";
@@ -37,8 +38,8 @@ const Writer = () => {
         store.config.lookupPath,
         JSON.stringify(parsed, null, 2)
       );
-    } catch {
-      // @TODO: show error toast
+    } catch (err) {
+      toast.error(`Error occured while updating cache: ${err}`);
     }
   };
 
@@ -57,8 +58,8 @@ const Writer = () => {
       const contentPath = `${store.config.stackPath}/${fileId}.md`;
       await fs.writeTextFile(contentPath, content.markdown);
       updateLookupCache(fileId, content.text);
-    } catch {
-      // @TODO: show error toast
+    } catch (err) {
+      toast.error(`Error occured while saving stack entry: ${err}`);
     }
   };
 
@@ -82,8 +83,8 @@ const Writer = () => {
         const html = markdownToHTML(content);
         editorRef?.current?.setContent(html);
       }
-    } catch {
-      // @TODO: show error toast
+    } catch (err) {
+      toast.error(`Error occured while loading existing stack entry: ${err}`);
     }
   };
 
