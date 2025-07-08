@@ -2,6 +2,9 @@ import React, { useEffect, useState, type ButtonHTMLAttributes } from "react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import Settings from "./settings";
 import SidePanel from "./side-panel";
+import { Button } from "../ui/button";
+import { PencilRulerIcon } from "lucide-react";
+import useQueryParams from "../../hooks/useQueryParams";
 
 interface WindowControlButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -24,6 +27,7 @@ WindowControlButton.displayName = "WindowControlButton";
 
 const Header = () => {
   const appWindow = getCurrentWindow();
+  const { setQuery } = useQueryParams();
 
   const [isFullscreen, setIsFullScreen] = useState<boolean>(false);
 
@@ -65,6 +69,14 @@ const Header = () => {
         />
       </div>
       <div className="flex items-center gap-x-1">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setQuery({ entry: "new" })}
+          className="size-6 flex items-center justify-center rounded hover:bg-background hover:text-primary"
+        >
+          <PencilRulerIcon />
+        </Button>
         <Settings />
         <SidePanel />
       </div>
