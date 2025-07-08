@@ -14,6 +14,7 @@ const Writer = () => {
   const fileParamsId = query?.fileId;
 
   const updateLookupCache = async (fileId: string, textContent: string) => {
+    if (!store.config.lookupPath) return;
     try {
       const lookupJSON = await fs.readTextFile(store.config.lookupPath);
       const parsed: LookupCacheType[] = JSON.parse(lookupJSON);
@@ -47,7 +48,7 @@ const Writer = () => {
     let fileId = fileParamsId;
 
     if (!fileId) {
-      fileId = new Date().toISOString();
+      fileId = Date.now().toString();
     }
 
     if (fileId && !fileParamsId) {
@@ -71,7 +72,7 @@ const Writer = () => {
 
         writeToFile({ markdown, text });
       }, 500),
-    []
+    [fileParamsId]
   );
 
   const loadExistingFile = async () => {
@@ -100,7 +101,7 @@ const Writer = () => {
   }, [query]);
 
   return (
-    <div className="w-full max-w-2xl mx-auto py-20">
+    <div className="max-w-3xl mx-auto my-20 px-4 sm:px-8">
       <Editor
         ref={editorRef}
         onChange={(editorContent) => debouncedOnChange(editorContent)}

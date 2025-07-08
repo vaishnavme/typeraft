@@ -49,7 +49,7 @@ const Header = () => {
   return (
     <header
       data-tauri-drag-region
-      className="fixed left-2 top-2 w-full h-8 flex items-center justify-between pl-2 pr-5"
+      className="sticky w-full h-8 flex items-center justify-between bg-background px-1.5 z-10 rounded-t-md"
     >
       <div className="flex items-center gap-x-2">
         <WindowControlButton
