@@ -3,8 +3,14 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import Link from "@tiptap/extension-link";
-import { useTheme } from "../../theme/theme-provider";
 import { getRandomNumber } from "../../lib/utils";
+import { useTheme } from "../../provider/theme-provider";
+import { font_class_map } from "../../lib/constants";
+
+export interface EditorRefType {
+  setContent: (html: string) => void;
+  clearContent?: () => void;
+}
 
 interface EditorProps {
   content?: string;
@@ -20,7 +26,7 @@ const allPlaceholders = [
 const getPlaceholder = () =>
   allPlaceholders[getRandomNumber(0, allPlaceholders.length - 1)];
 
-const Editor = forwardRef((props: EditorProps, ref) => {
+const Editor = forwardRef<EditorRefType, EditorProps>((props, ref) => {
   const { content, onChange } = props;
 
   const { font } = useTheme();
@@ -49,7 +55,7 @@ const Editor = forwardRef((props: EditorProps, ref) => {
 
       editorProps: {
         attributes: {
-          class: `prose outline-none w-full h-full ${font}`,
+          class: `prose outline-none w-full h-full ${font_class_map[font]}`,
         },
       },
     },

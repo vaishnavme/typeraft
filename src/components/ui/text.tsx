@@ -1,46 +1,48 @@
-import { type ElementType, type HTMLAttributes } from "react";
+import React from "react";
+import { cva } from "class-variance-authority";
+import { cn } from "../../lib/utils";
+import { Slot } from "@radix-ui/react-slot";
 
-interface TextProps extends HTMLAttributes<HTMLElement> {
-  as?: ElementType;
-  medium?: boolean;
-  semibold?: boolean;
-  xxs?: boolean;
-  xs?: boolean;
-  base?: boolean;
-  lg?: boolean;
-  xxl?: boolean;
+const textVariants = cva("text-foreground", {
+  variants: {
+    size: {
+      default: "text-sm",
+      xxs: "text-[10px]",
+      xs: "text-xs",
+      base: "text-base",
+      lg: "text-lg",
+      xxl: "text-2xl",
+    },
+    weight: {
+      default: "font-normal",
+      light: "font-light",
+      medium: "font-medium",
+      semibold: "font-semibold",
+    },
+    defaultVariants: {
+      size: "default",
+      weight: "default",
+    },
+  },
+});
+
+interface TextProps extends React.HTMLAttributes<HTMLElement> {
+  as?: React.ElementType;
+  asChild?: boolean;
+  size?: "default" | "xxs" | "xs" | "base" | "lg" | "xxl";
+  weight?: "default" | "light" | "medium" | "semibold";
+  className?: string;
 }
 
-const Text = (props: TextProps) => {
-  const {
-    as: Component = "p",
-    medium,
-    semibold,
-    xxs,
-    xs,
-    base,
-    lg,
-    xxl,
-    className = "",
-    ...rest
-  } = props;
+const Text: React.FC<TextProps> = (props) => {
+  const { asChild = false, size, weight, className, ...rest } = props;
 
-  let fontWeight = "";
-  if (semibold) fontWeight = "font-semibold";
-  else if (medium) fontWeight = "font-medium";
-
-  // Default to sm, xxs is smallest
-  let fontSize = "text-sm";
-  if (xxs) fontSize = "text-xxs";
-  else if (xs) fontSize = "text-xs";
-  else if (base) fontSize = "text-base";
-  else if (lg) fontSize = "text-lg";
-  else if (xxl) fontSize = "text-2xl";
+  const Component = asChild ? Slot : "p";
 
   return (
     <Component
-      className={[fontWeight, fontSize, className].filter(Boolean).join(" ")}
       {...rest}
+      className={cn(textVariants({ size, weight, className }))}
     />
   );
 };

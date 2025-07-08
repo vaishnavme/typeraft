@@ -1,28 +1,29 @@
 import { useEffect, useMemo, useRef } from "react";
 import * as fs from "@tauri-apps/plugin-fs";
 import { toast } from "sonner";
-import Editor from "../editor/editor";
+import Editor, { type EditorRefType } from "../editor/editor";
 import { debounce, htmlToMarkdown, markdownToHTML } from "../../lib/utils";
 import useQueryParams from "../../hooks/useQueryParams";
-import store, { storeKeys } from "../../lib/store";
+import store from "../../lib/store";
 import type { LookupCacheType } from "../../lib/global.types";
 
-const Write = () => {
-  const editorRef = useRef<any>(null);
+const Writer = () => {
+  const editorRef = useRef<EditorRefType | null>(null);
   const { query, resetQuery, setQuery } = useQueryParams();
 
   const fileParamsId = query?.fileId;
 
-  const updateLookupCache = async (fileId: string, text: string) => {
+  const updateLookupCache = async (fileId: string, textContent: string) => {
+    if (!store.config.lookupPath) return;
     try {
-      const lookupCachePath = await store.getItem(storeKeys.lookupPath);
-      const lookupJSON = await fs.readTextFile(lookupCachePath);
+      const lookupJSON = await fs.readTextFile(store.config.lookupPath);
       const parsed: LookupCacheType[] = JSON.parse(lookupJSON);
 
       const timestamp = new Date().toISOString();
-      const preview = text?.trim()?.slice(0, 120);
+      const preview = textContent?.trim()?.slice(0, 120);
 
-      const fileIdIndex = parsed?.findIndex((item) => item?.fileId === fileId); // Fixed: was missing === fileId
+      const fileIdIndex = parsed?.findIndex((item) => item?.fileId === fileId);
+
       if (fileIdIndex > -1) {
         parsed[fileIdIndex].updatedAt = timestamp;
         parsed[fileIdIndex].preview = preview;
@@ -34,20 +35,18 @@ const Write = () => {
           updatedAt: timestamp,
         });
       }
-      await fs.writeTextFile(lookupCachePath, JSON.stringify(parsed, null, 2));
-    } catch {
-      //
+      await fs.writeTextFile(
+        store.config.lookupPath,
+        JSON.stringify(parsed, null, 2)
+      );
+    } catch (err) {
+      toast.error(`Error occured while updating cache: ${err}`);
     }
   };
 
-  const writeToFile = async ({
-    markdown,
-    text,
-  }: {
-    markdown: string;
-    text: string;
-  }) => {
+  const writeToFile = async (content: { markdown: string; text: string }) => {
     let fileId = fileParamsId;
+
     if (!fileId) {
       fileId = Date.now().toString();
     }
@@ -57,12 +56,11 @@ const Write = () => {
     }
 
     try {
-      const stackPath = await store.getItem(storeKeys.currentStackPath);
-      const contentPath = `${stackPath}/${fileId}.md`;
-      await fs.writeTextFile(contentPath, markdown);
-      updateLookupCache(fileId, text);
-    } catch {
-      toast.message("Error occured while saving Writeup.");
+      const contentPath = `${store.config.stackPath}/${fileId}.md`;
+      await fs.writeTextFile(contentPath, content.markdown);
+      updateLookupCache(fileId, content.text);
+    } catch (err) {
+      toast.error(`Error occured while saving stack entry: ${err}`);
     }
   };
 
@@ -79,16 +77,15 @@ const Write = () => {
 
   const loadExistingFile = async () => {
     try {
-      const stackPath = await store.getItem(storeKeys.currentStackPath);
-      const contentPath = `${stackPath}/${fileParamsId}.md`;
+      const contentPath = `${store.config.stackPath}/${fileParamsId}.md`;
       const content = await fs.readTextFile(contentPath);
 
       if (content) {
         const html = markdownToHTML(content);
         editorRef?.current?.setContent(html);
       }
-    } catch {
-      toast.message("Could not load existing note.");
+    } catch (err) {
+      toast.error(`Error occured while loading existing stack entry: ${err}`);
     }
   };
 
@@ -98,16 +95,19 @@ const Write = () => {
       return;
     }
     if (query?.entry === "new") {
-      editorRef?.current?.clearContent();
+      editorRef?.current?.clearContent?.();
       resetQuery();
     }
   }, [query]);
 
   return (
-    <div className="w-full max-w-2xl mx-auto py-20">
-      <Editor ref={editorRef} onChange={(data) => debouncedOnChange(data)} />
+    <div className="max-w-3xl mx-auto my-20 px-4 sm:px-8">
+      <Editor
+        ref={editorRef}
+        onChange={(editorContent) => debouncedOnChange(editorContent)}
+      />
     </div>
   );
 };
 
-export default Write;
+export default Writer;

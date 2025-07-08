@@ -2,122 +2,167 @@ import { useEffect, useState } from "react";
 import * as tauriDialog from "@tauri-apps/plugin-dialog";
 import * as fs from "@tauri-apps/plugin-fs";
 import { toast } from "sonner";
-import { SettingsIcon } from "../icons";
-import Modal from "../ui/modal";
-import store, { storeKeys } from "../../lib/store";
+import { Button } from "../ui/button";
+import { SettingsIcon } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import { Input } from "../ui/input";
 import Text from "../ui/text";
-import Button from "../ui/button";
-import Input from "../ui/input";
+import ThemePalette from "./theme-palette";
+import Typeface from "./typeface";
+import store from "../../lib/store";
 import { lookup_cache } from "../../lib/constants";
+import { useTheme } from "../../provider/theme-provider";
 
 const Settings = () => {
-  const [stackName, setStackName] = useState<string>("");
-  const [stackPath, setStackPath] = useState<string>("");
-  const [openSetting, setOpenSetting] = useState<boolean>(false);
+  const { theme, font } = useTheme();
 
-  const handleSelectStackFolder = async () => {
+  const [stackName, setStackName] = useState<string>(store.stackName || "");
+  const [location, setLocation] = useState<string>(store.location || "");
+  const [openSetting, setOpenSetting] = useState<boolean>(false);
+  const [firstInit, setFirstInit] = useState<boolean>(false);
+
+  const saveConfig = async () => {
+    if (!stackName || !location) return;
+
+    try {
+      const stackLocation = `${location}/${stackName}`;
+      const lookupfile = `${stackLocation}/${lookup_cache}`;
+      const isFileExist = await fs.exists(stackLocation);
+      if (!isFileExist) {
+        await fs.mkdir(stackLocation);
+        await fs.writeTextFile(lookupfile, JSON.stringify([], null, 2));
+      }
+
+      await store.setLocation(location);
+      await store.setStackName(stackName);
+      await store.setTheme(theme);
+      await store.setFont(font);
+
+      setOpenSetting(false);
+      setFirstInit(false);
+    } catch (err) {
+      toast.error(`Could not save user config: ${err}`);
+    }
+  };
+
+  const handleSelectLocation = async () => {
     try {
       const folder = await tauriDialog.open({
         multiple: false,
         directory: true,
       });
-      if (folder) setStackPath(folder);
-    } catch {
-      //
-    }
-  };
-
-  const handleSave = async () => {
-    if (!stackPath || !stackName) return;
-
-    const currentPath = `${stackPath}/${stackName}`;
-    const lookupCachePath = `${currentPath}/${lookup_cache}`;
-    try {
-      const isFileExists = await fs.exists(currentPath);
-      if (isFileExists) {
-        toast.message(
-          "Stack folder already exists. Please use different Stack folder."
-        );
-        return;
+      if (folder) {
+        setLocation(folder);
       }
-      await fs.mkdir(currentPath);
-      await fs.writeTextFile(lookupCachePath, JSON.stringify([], null, 2));
-      await store.addItem(storeKeys.path, stackPath);
-      await store.addItem(storeKeys.stackName, stackName);
-      await store.addItem(storeKeys.currentStackPath, currentPath);
-      await store.addItem(storeKeys.lookupPath, lookupCachePath);
-      setOpenSetting(false);
-    } catch {
-      //
+    } catch (err) {
+      toast.error(`Could not open folder selector: ${err}`);
     }
   };
 
-  const loadSavedVault = async () => {
-    const savedStackPath = await store.getItem(storeKeys.path);
-    const savedStackName = await store.getItem(storeKeys.stackName);
-
-    if (!savedStackPath || !savedStackName) {
+  const loadSavedConfig = async () => {
+    if (!store.config.location || !store.config.stackName) {
       setOpenSetting(true);
+      setFirstInit(true);
       return;
     }
-
-    if (savedStackPath) setStackPath(savedStackPath);
-    if (savedStackName) setStackName(savedStackName);
+    setLocation(store.location || "");
+    setStackName(store.stackName || "");
   };
 
   useEffect(() => {
-    loadSavedVault();
-  }, []);
-
-  const hasSomeSettings = !!stackName?.length && !!stackPath?.length;
+    loadSavedConfig();
+  }, [store.config.location, store.config.stackName]);
 
   return (
-    <Modal
-      open={openSetting}
-      onOpenChange={setOpenSetting}
-      title="Settings"
-      onEscapeKeyDown={(event) => {
-        if (!hasSomeSettings) {
-          event.preventDefault();
-        }
-      }}
-      onInteractOutside={(event) => {
-        if (!hasSomeSettings) {
-          event.preventDefault();
-        }
-      }}
-      hideCloseButton={!hasSomeSettings}
-      modalTrigger={
-        <button type="button">
-          <SettingsIcon className="size-3" />
-        </button>
-      }
-    >
-      <div className="space-y-6">
-        <Input
-          id="stack"
-          label="Stack name"
-          subText="Choose a name for your stack"
-          value={stackName}
-          onChange={(e) => setStackName(e?.target?.value)}
-        />
+    <Dialog open={openSetting} onOpenChange={setOpenSetting}>
+      <DialogTrigger asChild>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="size-6 flex items-center justify-center rounded hover:bg-background hover:text-primary"
+        >
+          <SettingsIcon />
+        </Button>
+      </DialogTrigger>
+      <DialogContent
+        className="p-4 w-96"
+        showCloseButton={false}
+        overlayClassName={firstInit ? "bg-popover-foreground" : ""}
+        onEscapeKeyDown={(e) => {
+          if (firstInit) {
+            e.preventDefault();
+          }
+        }}
+        onInteractOutside={(e) => {
+          if (firstInit) {
+            e.preventDefault();
+          }
+        }}
+      >
+        <DialogHeader className="gap-y-0 mt-6 mb-2">
+          <img
+            src="/src/assets/Typeraft.png"
+            alt="Typeraft"
+            className="size-11 mx-auto"
+          />
+          <DialogTitle className="text-base font-medium text-center">
+            Typeraft
+          </DialogTitle>
+          <DialogDescription className="text-center">
+            A distraction-free writing experience.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="flex flex-col gap-y-4">
+          <div className="flex flex-col gap-y-4">
+            <Input
+              label="Stack name"
+              placeholder="eg. Personal, Thoughts"
+              subText="Pick a name for your stack"
+              value={stackName}
+              autoFocus={false}
+              onChange={(e) => setStackName(e.target.value)}
+            />
+            <div className="flex flex-col gap-y-1">
+              <Text size="xs" weight="medium">
+                Location
+              </Text>
+              <div>
+                <Button
+                  variant="outline"
+                  className="w-full text-left justify-start"
+                  onClick={handleSelectLocation}
+                >
+                  {location?.slice(0, 45) || "Choose a location"}
+                </Button>
+              </div>
+              <Text size="xs" className="text-muted-foreground">
+                Pick a place to store stack
+              </Text>
+            </div>
 
-        <div className="flex flex-col gap-y-1">
-          <Text medium>Location</Text>
-          <Button.Secondary onClick={handleSelectStackFolder}>
-            {stackPath || "Choose a location"}
-          </Button.Secondary>
-          <Text xs className="text-secondary">
-            Pick a place to store this stack
-          </Text>
-        </div>
+            <ThemePalette />
 
-        <div className="flex items-center justify-end">
-          <Button.Primary onClick={handleSave}>Save</Button.Primary>
+            <Typeface />
+          </div>
+
+          <div className="flex items-center justify-end">
+            <Button onClick={saveConfig} size="sm">
+              Create
+            </Button>
+          </div>
         </div>
-      </div>
-    </Modal>
+      </DialogContent>
+    </Dialog>
   );
 };
+
+Settings.displayName = "Settings";
 
 export default Settings;

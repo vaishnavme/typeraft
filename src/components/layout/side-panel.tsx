@@ -1,75 +1,80 @@
 import { useEffect, useState } from "react";
+import { FolderOpenIcon } from "lucide-react";
 import * as fs from "@tauri-apps/plugin-fs";
 import dayjs from "dayjs";
-import Button from "../ui/button";
-import useQueryParams from "../../hooks/useQueryParams";
-import store, { storeKeys } from "../../lib/store";
+import { Button } from "../ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "../ui/sheet";
 import type { LookupCacheType } from "../../lib/global.types";
+import store from "../../lib/store";
+import useQueryParams from "../../hooks/useQueryParams";
+import { toast } from "sonner";
 
-interface SidePanelProps {
-  showDrawer: boolean;
-  setShowDrawer: (value: boolean) => void;
-}
-
-const SidePanel = (props: SidePanelProps) => {
-  const { showDrawer, setShowDrawer } = props;
-
+const SidePanel = () => {
   const { query, setQuery } = useQueryParams();
 
+  const [openPanel, setOpenPanel] = useState<boolean>(false);
   const [allEntries, setAllEntries] = useState<LookupCacheType[]>([]);
 
   const loadAllEntries = async () => {
+    if (!store.config.lookupPath) return;
     try {
-      const lookupCachePath = await store.getItem(storeKeys.lookupPath);
-      const lookupJSON = await fs.readTextFile(lookupCachePath);
+      const isFileExist = await fs.exists(store.config.lookupPath);
+      if (!isFileExist) return;
+      const lookupJSON = await fs.readTextFile(store.config.lookupPath);
       const parsed = JSON.parse(lookupJSON);
-      setAllEntries(parsed);
-    } catch {
-      //
+      setAllEntries(parsed || []);
+    } catch (err) {
+      toast.error(`Error occured while loading all stack entries: ${err}`);
     }
   };
 
   useEffect(() => {
     loadAllEntries();
-  }, [showDrawer]);
+  }, [openPanel, store.config.lookupPath]);
 
   return (
-    <aside
-      className={`fixed top-0 right-0 h-screen rounded-r-2xl w-72 bg-background border-l border-r-6 border-y-6 border-border shadow-lg z-40 transform transition-transform ${
-        showDrawer ? "translate-x-0" : "translate-x-full"
-      }`}
-    >
-      <div className="w-full flex items-center justify-between p-4">
-        <p className="geist text-sm font-medium">All Entries</p>
-        <Button.MonoButton onClick={() => setShowDrawer(false)}>
-          close ✕
-        </Button.MonoButton>
-      </div>
+    <Sheet open={openPanel} onOpenChange={setOpenPanel}>
+      <SheetTrigger asChild>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="size-6 flex items-center justify-center rounded hover:bg-background hover:text-primary"
+        >
+          <FolderOpenIcon />
+        </Button>
+      </SheetTrigger>
+      <SheetContent className="w-80 mt-1.5 mr-1.5 h-[calc(100%-12px)] rounded border border-border">
+        <SheetHeader>
+          <SheetTitle className="font-medium">All Entries</SheetTitle>
+        </SheetHeader>
+        <div className="h-[calc(100%-72px)] overflow-y-auto">
+          <ul className="space-y-0.5">
+            {allEntries.map((entry) => (
+              <li key={entry.fileId}>
+                <button
+                  type="button"
+                  data-state={entry?.fileId === query?.fileId ? "on" : "off"}
+                  onClick={() => setQuery({ fileId: entry?.fileId })}
+                  className="text-xs text-left w-full px-4 py-2 border-l-2 border-background data-[state=on]:border-primary data-[state=on]:bg-muted hover:bg-muted"
+                >
+                  <p className="clamp-2 mb-1">{entry.preview}</p>
 
-      <ul className="space-y-px">
-        {allEntries.map((entry) => (
-          <li key={entry?.fileId}>
-            <button
-              type="button"
-              data-state={entry?.fileId === query?.fileId ? "on" : "off"}
-              onClick={() => {
-                setQuery({ fileId: entry?.fileId });
-              }}
-              className="text-xs text-left w-full px-4 py-2 border-l-2 border-background data-[state=on]:border-accent data-[state=on]:bg-background-secondary hover:border-background-secondary hover:bg-background-secondary"
-            >
-              <div className="h-4">
-                <p className="clamp-1 mb-1">{entry?.preview}</p>
-              </div>
-              <div className="flex items-center justify-end">
-                <p className="text-xxs font-medium mono text-secondary">
-                  {dayjs(entry.createdAt).format("DD MMM, YYYY")}
-                </p>
-              </div>
-            </button>
-          </li>
-        ))}
-      </ul>
-    </aside>
+                  <div className="flex items-center justify-end text-[10px] font-mono">
+                    {dayjs(entry.createdAt).format("DD MMM, YYYY")}
+                  </div>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </SheetContent>
+    </Sheet>
   );
 };
 
