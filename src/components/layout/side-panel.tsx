@@ -23,11 +23,10 @@ const SidePanel = () => {
   const loadAllEntries = async () => {
     try {
       const lookupJSON = await fs.readTextFile(store.config.lookupPath);
-      console.log("lookupJSON: ", lookupJSON);
       const parsed = JSON.parse(lookupJSON);
-      setAllEntries(parsed);
+      setAllEntries(parsed || []);
     } catch {
-      //
+      // @TODO: show error toast
     }
   };
 

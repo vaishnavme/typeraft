@@ -7,6 +7,11 @@ import { getRandomNumber } from "../../lib/utils";
 import { useTheme } from "../../provider/theme-provider";
 import { font_class_map } from "../../lib/constants";
 
+export interface EditorRefType {
+  setContent: (html: string) => void;
+  clearContent?: () => void;
+}
+
 interface EditorProps {
   content?: string;
   onChange: ({ html, text }: { html: string; text: string }) => void;
@@ -21,11 +26,11 @@ const allPlaceholders = [
 const getPlaceholder = () =>
   allPlaceholders[getRandomNumber(0, allPlaceholders.length - 1)];
 
-const Editor = forwardRef((props: EditorProps, ref) => {
+const Editor = forwardRef<EditorRefType, EditorProps>((props, ref) => {
   const { content, onChange } = props;
 
   const { font } = useTheme();
-  console.log({ font });
+
   const editor = useEditor(
     {
       content,
