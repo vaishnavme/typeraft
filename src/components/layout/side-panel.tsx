@@ -22,6 +22,7 @@ const SidePanel = () => {
   const [allEntries, setAllEntries] = useState<LookupCacheType[]>([]);
 
   const loadAllEntries = async () => {
+    if (!store.config.lookupPath) return;
     try {
       const lookupJSON = await fs.readTextFile(store.config.lookupPath);
       const parsed = JSON.parse(lookupJSON);
@@ -33,7 +34,7 @@ const SidePanel = () => {
 
   useEffect(() => {
     loadAllEntries();
-  }, [openPanel]);
+  }, [openPanel, store.config.lookupPath]);
 
   return (
     <Sheet open={openPanel} onOpenChange={setOpenPanel}>
@@ -50,8 +51,8 @@ const SidePanel = () => {
         <SheetHeader>
           <SheetTitle className="font-medium">All Entries</SheetTitle>
         </SheetHeader>
-        <div className="h-full">
-          <ul className="overflow-y-auto space-y-0.5">
+        <div className="h-[calc(100%-72px)] overflow-y-auto">
+          <ul className="space-y-0.5">
             {allEntries.map((entry) => (
               <li key={entry.fileId}>
                 <button

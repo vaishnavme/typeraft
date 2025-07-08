@@ -20,8 +20,13 @@ class StoreManager {
   }
 
   get config() {
-    const stackPath = `${this.location}/${this.stackName}`;
-    const lookupPath = `${this.location}/${this.stackName}/${lookup_cache}`;
+    let stackPath;
+    let lookupPath;
+
+    if (this.location && this.stackName) {
+      stackPath = `${this.location}/${this.stackName}`;
+      lookupPath = `${this.location}/${this.stackName}/${lookup_cache}`;
+    }
 
     return {
       stackName: this.stackName,

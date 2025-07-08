@@ -97,6 +97,7 @@ const Settings = () => {
               placeholder="eg. Personal, Thoughts"
               subText="Pick a name for your stack"
               value={stackName}
+              autoFocus={false}
               onChange={(e) => setStackName(e.target.value)}
             />
             <div className="flex flex-col gap-y-1">

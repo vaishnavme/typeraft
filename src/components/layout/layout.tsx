@@ -8,9 +8,11 @@ interface LayoutProps {
 const Layout = (props: LayoutProps) => {
   const { children } = props;
   return (
-    <div className="font-geist bg-background rounded w-full h-[calc(100vh-12px)] relative overflow-y-auto antialiased">
+    <div className="font-geist bg-background rounded w-full relative antialiased">
       <Header />
-      {children}
+      <main className="w-full h-[calc(100vh-44px)] overflow-y-auto">
+        {children}
+      </main>
     </div>
   );
 };
