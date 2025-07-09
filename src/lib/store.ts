@@ -11,6 +11,7 @@ class StoreManager {
   lookupPath: string | undefined;
   theme: Theme | undefined;
   font: Font | undefined;
+  storeInit: boolean | undefined;
 
   constructor() {
     (async () => {
@@ -33,6 +34,7 @@ class StoreManager {
       location: this.location,
       stackPath,
       lookupPath,
+      storeInit: this.storeInit,
     };
   }
 
@@ -48,6 +50,7 @@ class StoreManager {
     this.stackName = stackName;
     this.theme = theme;
     this.font = font;
+    this.storeInit = true;
   }
 
   async addItem(key: string, value: string) {

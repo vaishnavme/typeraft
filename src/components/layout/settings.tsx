@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import * as tauriDialog from "@tauri-apps/plugin-dialog";
 import * as fs from "@tauri-apps/plugin-fs";
 import { toast } from "sonner";
-import { Button } from "../ui/button";
 import { SettingsIcon } from "lucide-react";
+import { Button } from "../ui/button";
 import {
   Dialog,
   DialogContent,
@@ -19,6 +19,7 @@ import Typeface from "./typeface";
 import store from "../../lib/store";
 import { lookup_cache } from "../../lib/constants";
 import { useTheme } from "../../provider/theme-provider";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 const Settings = () => {
   const { theme, font } = useTheme();
@@ -77,20 +78,27 @@ const Settings = () => {
   };
 
   useEffect(() => {
-    loadSavedConfig();
-  }, [store.config.location, store.config.stackName]);
+    if (store.config.storeInit) {
+      loadSavedConfig();
+    }
+  }, [store.config.storeInit]);
 
   return (
     <Dialog open={openSetting} onOpenChange={setOpenSetting}>
-      <DialogTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="size-6 flex items-center justify-center rounded hover:bg-background hover:text-primary"
-        >
-          <SettingsIcon />
-        </Button>
-      </DialogTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DialogTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-6 flex items-center justify-center rounded hover:bg-background hover:text-primary"
+            >
+              <SettingsIcon />
+            </Button>
+          </DialogTrigger>
+        </TooltipTrigger>
+        <TooltipContent>Settings</TooltipContent>
+      </Tooltip>
       <DialogContent
         className="p-4 w-96"
         showCloseButton={false}

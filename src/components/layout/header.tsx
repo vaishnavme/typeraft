@@ -1,10 +1,12 @@
 import React, { useEffect, useState, type ButtonHTMLAttributes } from "react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
+import { PencilRulerIcon } from "lucide-react";
 import Settings from "./settings";
 import SidePanel from "./side-panel";
 import { Button } from "../ui/button";
-import { PencilRulerIcon } from "lucide-react";
 import useQueryParams from "../../hooks/useQueryParams";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import MoreOptions from "./more-options";
 
 interface WindowControlButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -15,11 +17,16 @@ const WindowControlButton: React.FC<WindowControlButtonProps> = (props) => {
   const { className, ...rest } = props;
 
   return (
-    <button
-      type="button"
-      className={`size-3 rounded-full ${className}`}
-      {...rest}
-    />
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <button
+          type="button"
+          className={`size-3 rounded-full disabled:bg-gray-500 ${className}`}
+          {...rest}
+        />
+      </TooltipTrigger>
+      <TooltipContent>{props["aria-label"]}</TooltipContent>
+    </Tooltip>
   );
 };
 
@@ -53,30 +60,38 @@ const Header = () => {
     >
       <div className="flex items-center gap-x-2">
         <WindowControlButton
-          aria-label="Close Window"
+          aria-label="Close"
           className="bg-red-400 hover:bg-red-500 transition-all ease-in-out"
           onClick={() => appWindow.close()}
         />
         <WindowControlButton
-          aria-label="Close Minimize"
+          aria-label="Minimize"
           className="bg-amber-500 hover:bg-amber-600 transition-all ease-in-out"
           onClick={() => appWindow.minimize()}
+          disabled={isFullscreen}
         />
         <WindowControlButton
-          aria-label="Close Resize"
+          aria-label="Resize"
           className="bg-green-500 hover:bg-green-600 transition-all ease-in-out"
           onClick={toggleWindowSize}
         />
       </div>
       <div className="flex items-center gap-x-1">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setQuery({ entry: "new" })}
-          className="size-6 flex items-center justify-center rounded hover:bg-background hover:text-primary"
-        >
-          <PencilRulerIcon />
-        </Button>
+        <MoreOptions />
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setQuery({ entry: "new" })}
+              className="size-6 flex items-center justify-center rounded hover:bg-background hover:text-primary"
+            >
+              <PencilRulerIcon />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Create Entry</TooltipContent>
+        </Tooltip>
+
         <Settings />
         <SidePanel />
       </div>
