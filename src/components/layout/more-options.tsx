@@ -1,5 +1,5 @@
 import * as fs from "@tauri-apps/plugin-fs";
-import { FullscreenIcon, MoreHorizontalIcon, TrashIcon } from "lucide-react";
+import { MoreHorizontalIcon, TrashIcon } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 import {
@@ -58,10 +58,10 @@ const MoreOptions = () => {
         <TooltipContent>More Options</TooltipContent>
       </Tooltip>
       <DropdownMenuContent className="w-40">
-        <DropdownMenuItem className="font-medium">
+        {/* <DropdownMenuItem className="font-medium">
           <FullscreenIcon />
           Screenshot
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
         <DropdownMenuItem className="font-medium" onClick={deleteEntry}>
           <TrashIcon />
           Delete
