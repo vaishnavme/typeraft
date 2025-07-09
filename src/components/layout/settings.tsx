@@ -19,6 +19,7 @@ import Typeface from "./typeface";
 import store from "../../lib/store";
 import { lookup_cache } from "../../lib/constants";
 import { useTheme } from "../../provider/theme-provider";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 const Settings = () => {
   const { theme, font } = useTheme();
@@ -84,15 +85,20 @@ const Settings = () => {
 
   return (
     <Dialog open={openSetting} onOpenChange={setOpenSetting}>
-      <DialogTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="size-6 flex items-center justify-center rounded hover:bg-background hover:text-primary"
-        >
-          <SettingsIcon />
-        </Button>
-      </DialogTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DialogTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-6 flex items-center justify-center rounded hover:bg-background hover:text-primary"
+            >
+              <SettingsIcon />
+            </Button>
+          </DialogTrigger>
+        </TooltipTrigger>
+        <TooltipContent>Settings</TooltipContent>
+      </Tooltip>
       <DialogContent
         className="p-4 w-96"
         showCloseButton={false}
