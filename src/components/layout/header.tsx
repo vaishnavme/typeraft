@@ -6,6 +6,7 @@ import SidePanel from "./side-panel";
 import { Button } from "../ui/button";
 import useQueryParams from "../../hooks/useQueryParams";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import MoreOptions from "./more-options";
 
 interface WindowControlButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -20,7 +21,7 @@ const WindowControlButton: React.FC<WindowControlButtonProps> = (props) => {
       <TooltipTrigger asChild>
         <button
           type="button"
-          className={`size-3 rounded-full ${className}`}
+          className={`size-3 rounded-full disabled:bg-gray-500 ${className}`}
           {...rest}
         />
       </TooltipTrigger>
@@ -67,6 +68,7 @@ const Header = () => {
           aria-label="Minimize"
           className="bg-amber-500 hover:bg-amber-600 transition-all ease-in-out"
           onClick={() => appWindow.minimize()}
+          disabled={isFullscreen}
         />
         <WindowControlButton
           aria-label="Resize"
@@ -75,6 +77,7 @@ const Header = () => {
         />
       </div>
       <div className="flex items-center gap-x-1">
+        <MoreOptions />
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
