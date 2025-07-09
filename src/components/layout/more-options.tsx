@@ -11,6 +11,7 @@ import {
 import useQueryParams from "../../hooks/useQueryParams";
 import store from "../../lib/store";
 import type { LookupCacheType } from "../../lib/global.types";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 const MoreOptions = () => {
   const { query, setQuery } = useQueryParams();
@@ -42,15 +43,20 @@ const MoreOptions = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="size-6 flex items-center justify-center rounded hover:bg-background hover:text-primary"
-        >
-          <MoreHorizontalIcon />
-        </Button>
-      </DropdownMenuTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-6 flex items-center justify-center rounded hover:bg-background hover:text-primary"
+            >
+              <MoreHorizontalIcon />
+            </Button>
+          </DropdownMenuTrigger>
+        </TooltipTrigger>
+        <TooltipContent>More Options</TooltipContent>
+      </Tooltip>
       <DropdownMenuContent className="w-40">
         <DropdownMenuItem className="font-medium">
           <FullscreenIcon />
