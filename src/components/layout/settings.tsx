@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import * as tauriDialog from "@tauri-apps/plugin-dialog";
 import * as fs from "@tauri-apps/plugin-fs";
 import { toast } from "sonner";
-import { Button } from "../ui/button";
 import { SettingsIcon } from "lucide-react";
+import { Button } from "../ui/button";
 import {
   Dialog,
   DialogContent,
@@ -77,8 +77,10 @@ const Settings = () => {
   };
 
   useEffect(() => {
-    loadSavedConfig();
-  }, [store.config.location, store.config.stackName]);
+    if (store.config.storeInit) {
+      loadSavedConfig();
+    }
+  }, [store.config.storeInit]);
 
   return (
     <Dialog open={openSetting} onOpenChange={setOpenSetting}>

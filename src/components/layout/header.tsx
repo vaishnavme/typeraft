@@ -1,9 +1,9 @@
 import React, { useEffect, useState, type ButtonHTMLAttributes } from "react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
+import { PencilRulerIcon } from "lucide-react";
 import Settings from "./settings";
 import SidePanel from "./side-panel";
 import { Button } from "../ui/button";
-import { PencilRulerIcon } from "lucide-react";
 import useQueryParams from "../../hooks/useQueryParams";
 
 interface WindowControlButtonProps

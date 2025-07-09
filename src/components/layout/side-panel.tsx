@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FolderOpenIcon } from "lucide-react";
 import * as fs from "@tauri-apps/plugin-fs";
 import dayjs from "dayjs";
+import { toast } from "sonner";
 import { Button } from "../ui/button";
 import {
   Sheet,
@@ -13,7 +14,6 @@ import {
 import type { LookupCacheType } from "../../lib/global.types";
 import store from "../../lib/store";
 import useQueryParams from "../../hooks/useQueryParams";
-import { toast } from "sonner";
 
 const SidePanel = () => {
   const { query, setQuery } = useQueryParams();
@@ -27,8 +27,12 @@ const SidePanel = () => {
       const isFileExist = await fs.exists(store.config.lookupPath);
       if (!isFileExist) return;
       const lookupJSON = await fs.readTextFile(store.config.lookupPath);
-      const parsed = JSON.parse(lookupJSON);
-      setAllEntries(parsed || []);
+      const parsed: LookupCacheType[] = JSON.parse(lookupJSON);
+      const sortedList = parsed?.sort(
+        (f1, f2) =>
+          new Date(f2.createdAt).getTime() - new Date(f1.createdAt).getTime()
+      );
+      setAllEntries(sortedList || []);
     } catch (err) {
       toast.error(`Error occured while loading all stack entries: ${err}`);
     }
