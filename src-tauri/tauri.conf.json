@@ -46,7 +46,7 @@
       "providerShortName": "Typeraft",
       "signingIdentity": null,
       "dmg": {
-        "background": "../background.png",
+        "background": "../background.jpg",
         "appPosition": {
           "x": 180,
           "y": 170
