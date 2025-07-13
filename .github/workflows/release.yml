@@ -61,7 +61,7 @@ jobs:
       - name: Update Version Number
         run: npm version ${{ github.event.inputs.version }} --no-git-tag-version
 
-      - uses: tauri-apps/tauri-action@dev
+      - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
