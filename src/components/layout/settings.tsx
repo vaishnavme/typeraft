@@ -115,11 +115,7 @@ const Settings = () => {
         }}
       >
         <DialogHeader className="gap-y-0 mt-6 mb-2">
-          <img
-            src="/src/assets/Typeraft.png"
-            alt="Typeraft"
-            className="size-11 mx-auto"
-          />
+          <img src="/Typeraft.png" alt="Typeraft" className="size-11 mx-auto" />
           <DialogTitle className="text-base font-medium text-center">
             Typeraft
           </DialogTitle>
