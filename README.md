@@ -18,4 +18,6 @@ Vite + React (Frontend)
 > [!NOTE]
 > Installation
 > Download the latest version for your platform (Windows, macOS, or Linux) from the Release page and follow the setup > > instructions.
-> (MacOS aarch_64 "arm") As the app is currently unsigned (due to lack of a paid developer account) you can run xattr -c fylepad_aarch64.app to install or use the intel dmg fylepad_2.0.0_x64.dmg
+> 
+> (MacOS aarch_64 "arm") As the app is currently unsigned (due to lack of a paid developer account) you can run `xattr -c Typeraft.dmg
+` to install.
