@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "Typeraft",
-  "version": "1.0.3",
+  "version": "1.0.0",
   "identifier": "com.typeraft.dev",
   "build": {
     "frontendDist": "../dist",
